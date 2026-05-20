@@ -1,12 +1,10 @@
-import sys
-from pathlib import Path
-import pandas as pd
 import requests
-from datetime import datetime, timedelta
+import pandas as pd
+from datetime import datetime
+from pathlib import Path
 import time
-import json
 import logging
-from typing import Optional, Dict, List
+import sys
 
 # ============================================================================
 # CONFIGURACIÓN
@@ -20,29 +18,36 @@ LOGS_DIR = Path("logs")
 DATA_DIR.mkdir(parents=True, exist_ok=True)
 LOGS_DIR.mkdir(parents=True, exist_ok=True)
 
-DATA_FILE = DATA_DIR / "arif_hourly_data.csv"
-STATIONS_FILE = DATA_DIR / "stations.csv"
-ERRORS_FILE = LOGS_DIR / "errors.json"
+SPATIAL_CSV = DATA_DIR / "arif_spatial_timeseries.csv"
 
-MAX_RETRIES = 3
-RETRY_DELAY = 5
-REQUEST_TIMEOUT = 30
-INTER_STATION_DELAY = 0.5
-INTER_SENSOR_DELAY = 0.2
+# Variables espaciales
+VARIABLES = {
+    "T": "tair_hourly",
+    "H": "rh_hourly",
+    "P": "precip_10min_interval",
+    "PC": "precip_today_accum",
+    "R": "rs_hourly",
+    "W": "wind_speed",
+    "WDV": "wdir_hourly"
+}
 
-HEADERS = {
-    'Accept': 'application/json, text/javascript, */*; q=0.01',
-    'Accept-Language': 'es-419,es;q=0.9,es-ES;q=0.8,en;q=0.7',
-    'X-Requested-With': 'XMLHttpRequest',
-    'Referer': f'{ARIF_BASE_URL}/osservazioni/mappa-stazioni-meteo',
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+# Mapeo dinámico (api_code, COD_GRANDEZZA) -> (variable_name, unit)
+MAPPING = {
+    ("T", "TC"): ("tair_hourly", "°C"),
+    ("H", "UC"): ("rh_hourly", "%"),
+    ("P", "PC"): ("precip_10min_interval", "mm"),
+    ("PC", "PC"): ("precip_today_accum", "mm"),
+    ("R", "RG"): ("rs_hourly", "W/m²"),
+    ("W", "VA"): ("ws_10m_hourly", "m/s"),
+    ("W", "VB"): ("ws_2m_hourly", "m/s"),
+    ("WDV", "DV"): ("wdir_hourly", "°")
 }
 
 # ============================================================================
 # LOGGING
 # ============================================================================
 
-log_file = LOGS_DIR / f"arif_{datetime.now().strftime('%Y%m%d')}.log"
+log_file = LOGS_DIR / f"arif_spatial_{datetime.now().strftime('%Y%m%d')}.log"
 
 logging.basicConfig(
     level=logging.INFO,
@@ -56,296 +61,165 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # ============================================================================
-# SESIÓN HTTP CON COOKIE
+# SESIÓN HTTP
 # ============================================================================
 
-def create_session() -> requests.Session:
-    """Crear sesión HTTP con headers y cookie requerida"""
-    session = requests.Session()
-    session.headers.update(HEADERS)
-    
-    # CRÍTICO: Setear cookie requerida
-    session.cookies.set(
-        'nibirumail_cookie_advice', 
-        '1', 
-        domain='www.agrometeopuglia.it', 
-        path='/'
-    )
-    
-    logger.info(f"Sesión creada con cookie: {session.cookies}")
-    return session
+session = requests.Session()
+session.headers.update({
+    "Accept": "application/json, text/javascript, */*; q=0.01",
+    "Accept-Language": "es-419,es;q=0.9",
+    "X-Requested-With": "XMLHttpRequest",
+    "Referer": f"{ARIF_BASE_URL}/osservazioni/mappa-stazioni-meteo",
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+})
 
-session = create_session()
+session.cookies.set('nibirumail_cookie_advice', '1', 
+                   domain='www.agrometeopuglia.it', path='/')
 
 # ============================================================================
-# FUNCIONES DE RED CON REINTENTOS
+# DESCARGA DE DATOS
 # ============================================================================
 
-def request_with_retry(url: str, params: Dict, retries: int = MAX_RETRIES) -> Optional[requests.Response]:
-    """Hacer request con reintentos exponenciales"""
-    for attempt in range(retries):
-        try:
-            response = session.get(url, params=params, timeout=REQUEST_TIMEOUT)
-            response.raise_for_status()
-            return response
-        
-        except requests.exceptions.HTTPError as e:
-            if e.response.status_code in [401, 403]:
-                logger.error(f"Error de autenticación ({e.response.status_code}): {e.response.text[:100]}")
-                return None
-            
-            if attempt < retries - 1:
-                wait_time = RETRY_DELAY * (2 ** attempt)
-                logger.warning(f"HTTP {e.response.status_code}, reintento {attempt+1}/{retries} en {wait_time}s")
-                time.sleep(wait_time)
-            else:
-                logger.error(f"Fallo después de {retries} intentos: {e}")
-                return None
-        
-        except requests.exceptions.RequestException as e:
-            if attempt < retries - 1:
-                wait_time = RETRY_DELAY * (2 ** attempt)
-                logger.warning(f"Error de red, reintento {attempt+1}/{retries} en {wait_time}s: {e}")
-                time.sleep(wait_time)
-            else:
-                logger.error(f"Fallo después de {retries} intentos: {e}")
-                return None
-    
-    return None
-
-# ============================================================================
-# OBTENCIÓN DE DATOS
-# ============================================================================
-
-def get_station_sensors(station_id: str) -> List[Dict]:
-    """Obtener lista de sensores disponibles en una estación"""
-    url = f"{ARIF_BASE_URL}/api/osservazioni/sensori/{station_id}"
-    params = {'api': ARIF_API_KEY}
-    
-    response = request_with_retry(url, params)
-    
-    if response:
-        try:
-            sensors = response.json()
-            return sensors if isinstance(sensors, list) else []
-        except:
-            logger.error(f"Error parseando sensores de {station_id}")
-    
-    return []
-
-def get_sensor_data(station_id: str, sensor_code: str) -> Optional[Dict]:
-    """Obtener datos de un sensor específico"""
-    url = f"{ARIF_BASE_URL}/api/osservazioni/ultimaMisura/{station_id}"
+def download_variable(api_code: str, fallback_name: str) -> list:
+    """Descargar datos de UNA variable para TODAS las estaciones"""
+    url = f"{ARIF_BASE_URL}/api/osservazioni/stazioni"
     params = {
         'api': ARIF_API_KEY,
-        'sensor': sensor_code,
-        'misurazione': 0
+        'variable': api_code
     }
     
-    response = request_with_retry(url, params)
-    
-    if response:
-        try:
-            data = response.json()
-            
-            if data and isinstance(data, list) and len(data) > 0:
-                return data[0]
-        except:
-            logger.error(f"Error parseando datos de {station_id}/{sensor_code}")
-    
-    return None
-
-def get_all_station_data(station_id: str, station_name: str) -> Optional[pd.DataFrame]:
-    """Obtener datos de todos los sensores de una estación"""
-    logger.info(f"Procesando {station_id} - {station_name}")
-    
-    # 1. Obtener lista de sensores
-    sensors = get_station_sensors(station_id)
-    
-    if not sensors:
-        logger.warning(f"  Sin sensores disponibles")
-        return None
-    
-    logger.info(f"  {len(sensors)} sensores encontrados")
-    
-    # 2. Obtener datos de cada sensor
-    all_sensor_data = {}
-    successful_sensors = 0
-    
-    for sensor in sensors:
-        sensor_code = sensor['Codice']
-        sensor_name = sensor['Sensore']
-        
-        data = get_sensor_data(station_id, sensor_code)
-        
-        if data:
-            # Agregar todos los valores al diccionario
-            for key, value in data.items():
-                if key not in ['station_id', 'timestamp_extraction']:
-                    col_name = f"{sensor_code}_{key}" if key != 'Data' else key
-                    all_sensor_data[col_name] = value
-            
-            successful_sensors += 1
-        
-        time.sleep(INTER_SENSOR_DELAY)
-    
-    logger.info(f"  ✓ {successful_sensors}/{len(sensors)} sensores con datos")
-    
-    if all_sensor_data:
-        all_sensor_data['station_id'] = station_id
-        all_sensor_data['station_name'] = station_name
-        all_sensor_data['timestamp_utc'] = datetime.utcnow().isoformat()
-        all_sensor_data['timestamp_local'] = datetime.now().isoformat()
-        
-        return pd.DataFrame([all_sensor_data])
-    
-    return None
-
-# ============================================================================
-# GESTIÓN DE ERRORES
-# ============================================================================
-
-def load_errors() -> Dict:
-    """Cargar registro de errores"""
-    if ERRORS_FILE.exists():
-        try:
-            with open(ERRORS_FILE, 'r') as f:
-                return json.load(f)
-        except:
-            pass
-    return {'failed_stations': {}}
-
-def save_errors(errors: Dict):
-    """Guardar registro de errores"""
-    with open(ERRORS_FILE, 'w') as f:
-        json.dump(errors, f, indent=2)
-
-def register_error(station_id: str, error_msg: str, errors: Dict):
-    """Registrar error de una estación"""
-    if station_id not in errors['failed_stations']:
-        errors['failed_stations'][station_id] = []
-    
-    errors['failed_stations'][station_id].append({
-        'timestamp': datetime.now().isoformat(),
-        'error': error_msg
-    })
-
-# ============================================================================
-# VERIFICACIÓN DE DUPLICADOS
-# ============================================================================
-
-def check_recent_collection() -> bool:
-    """Verificar si ya se recolectó datos en la última hora"""
-    if not DATA_FILE.exists():
-        return False
+    logger.info(f"Descargando {fallback_name:<25} (API: {api_code})...")
     
     try:
-        df = pd.read_csv(DATA_FILE)
+        response = session.get(url, params=params, timeout=30)
         
-        if 'timestamp_utc' not in df.columns:
-            return False
+        if response.status_code != 200:
+            logger.error(f"  HTTP {response.status_code}")
+            return []
         
-        df['ts'] = pd.to_datetime(df['timestamp_utc'])
-        last_collection = df['ts'].max()
+        data = response.json()
         
-        time_diff = datetime.utcnow() - last_collection.to_pydatetime()
+        if not isinstance(data, list) or len(data) == 0:
+            logger.warning(f"  Vacío")
+            return []
         
-        if time_diff < timedelta(minutes=50):
-            logger.info(f"Última recolección hace {time_diff.total_seconds()/60:.1f} min - saltando")
-            return True
-    except:
-        pass
+        logger.info(f"  ✓ {len(data)} registros")
+        
+        records = []
+        
+        for item in data:
+            # Valor numérico
+            raw_val = item.get('VALORE')
+            value = None
+            if raw_val is not None:
+                try:
+                    value = float(str(raw_val).strip())
+                except:
+                    value = str(raw_val).strip()
+            
+            # Normalizar fecha: DD-MM-YYYY HH:MM:SS -> YYYY-MM-DD HH:MM:SS
+            raw_date = item.get('DATA', '').strip()
+            clean_date = raw_date
+            
+            if raw_date and '-' in raw_date[:10]:
+                parts = raw_date.split(' ')
+                date_part = parts[0]
+                time_part = parts[1] if len(parts) > 1 else ""
+                
+                date_parts = date_part.split('-')
+                if len(date_parts) == 3 and len(date_parts[2]) == 4:
+                    # DD-MM-YYYY -> YYYY-MM-DD
+                    clean_date = f"{date_parts[2]}-{date_parts[1]}-{date_parts[0]}"
+                    if time_part:
+                        clean_date = f"{clean_date} {time_part}"
+            
+            # Mapeo dinámico de variable y unidad
+            grandezza = item.get('COD_GRANDEZZA', '')
+            mapping_key = (api_code, grandezza)
+            
+            if mapping_key in MAPPING:
+                var_name, unit = MAPPING[mapping_key]
+            else:
+                var_name = fallback_name
+                unit = ""
+            
+            # Crear registro
+            record = {
+                'station_id': item.get('COD_STAZIONE'),
+                'station_name': item.get('NOME_STAZIONE'),
+                'latitude': float(item.get('LAT')) if item.get('LAT') else None,
+                'longitude': float(item.get('LON')) if item.get('LON') else None,
+                'datetime_local': clean_date,
+                'variable': var_name,
+                'value': value,
+                'unit': unit,
+                'timestamp_utc_extraction': datetime.utcnow().isoformat()
+            }
+            
+            records.append(record)
+        
+        return records
     
-    return False
+    except Exception as e:
+        logger.error(f"  Error: {e}")
+        return []
 
-# ============================================================================
-# RECOLECCIÓN PRINCIPAL
-# ============================================================================
-
-def collect_data():
+def collect_all_data():
     """Función principal de recolección"""
     logger.info("="*70)
-    logger.info("INICIO RECOLECCIÓN ARIF")
+    logger.info("INICIO RECOLECCIÓN ARIF SPATIAL")
     logger.info("="*70)
     
-    if check_recent_collection():
-        logger.info("Recolección reciente detectada - finalizando")
-        return
+    all_records = []
     
-    if not STATIONS_FILE.exists():
-        logger.error(f"Archivo de estaciones no encontrado: {STATIONS_FILE}")
-        logger.error("Ejecutá primero: python setup_arif.py")
+    for api_code, fallback_name in VARIABLES.items():
+        records = download_variable(api_code, fallback_name)
+        all_records.extend(records)
+        time.sleep(0.5)  # Delay entre variables
+    
+    if not all_records:
+        logger.error("No se obtuvieron datos")
         sys.exit(1)
     
-    stations = pd.read_csv(STATIONS_FILE)
-    logger.info(f"Estaciones a procesar: {len(stations)}")
+    # Crear DataFrame
+    df_new = pd.DataFrame(all_records)
     
-    errors = load_errors()
+    logger.info(f"Nuevos registros: {len(df_new)}")
     
-    all_data = []
-    successful = 0
-    failed = 0
-    start_time = time.time()
-    
-    for idx, row in stations.iterrows():
-        station_id = row['station_id']
-        station_name = row['name']
-        
+    # Combinar con datos existentes
+    if SPATIAL_CSV.exists():
         try:
-            df = get_all_station_data(station_id, station_name)
+            df_prev = pd.read_csv(SPATIAL_CSV)
+            df_combined = pd.concat([df_prev, df_new], ignore_index=True)
             
-            if df is not None and not df.empty:
-                all_data.append(df)
-                successful += 1
-            else:
-                failed += 1
-                register_error(station_id, "Sin datos", errors)
-        
-        except Exception as e:
-            failed += 1
-            error_msg = f"{type(e).__name__}: {str(e)}"
-            logger.error(f"Error en {station_id}: {error_msg}")
-            register_error(station_id, error_msg, errors)
-        
-        time.sleep(INTER_STATION_DELAY)
-        
-        if (idx + 1) % 10 == 0:
-            elapsed = (time.time() - start_time) / 60
-            logger.info(f"Progreso: {idx+1}/{len(stations)} ({elapsed:.1f} min)")
-    
-    save_errors(errors)
-    
-    if all_data:
-        new_data = pd.concat(all_data, ignore_index=True)
-        
-        if DATA_FILE.exists():
-            existing = pd.read_csv(DATA_FILE)
-            combined = pd.concat([existing, new_data], ignore_index=True)
-            
-            combined = combined.drop_duplicates(
-                subset=['station_id', 'timestamp_utc'],
+            # Eliminar duplicados
+            df_combined = df_combined.drop_duplicates(
+                subset=['station_id', 'datetime_local', 'variable'],
                 keep='last'
             )
-        else:
-            combined = new_data
-        
-        combined.to_csv(DATA_FILE, index=False, encoding='utf-8')
-        
-        elapsed = (time.time() - start_time) / 60
-        
-        logger.info("="*70)
-        logger.info("RECOLECCIÓN COMPLETADA")
-        logger.info(f"  Exitosas: {successful}/{len(stations)}")
-        logger.info(f"  Fallidas: {failed}/{len(stations)}")
-        logger.info(f"  Nuevos registros: {len(new_data)}")
-        logger.info(f"  Total acumulado: {len(combined)}")
-        logger.info(f"  Variables: {len(new_data.columns)}")
-        logger.info(f"  Tiempo: {elapsed:.1f} minutos")
-        logger.info("="*70)
-    
+            
+            logger.info(f"Registros previos: {len(df_prev)}")
+            logger.info(f"Después de deduplicar: {len(df_combined)}")
+        except Exception as e:
+            logger.warning(f"Error leyendo CSV previo: {e}")
+            df_combined = df_new
     else:
-        logger.error("No se recolectaron datos de ninguna estación")
-        sys.exit(1)
+        df_combined = df_new
+    
+    # Ordenar y guardar
+    df_combined = df_combined.sort_values(
+        by=['datetime_local', 'station_id', 'variable']
+    )
+    
+    df_combined.to_csv(SPATIAL_CSV, index=False, encoding='utf-8')
+    
+    logger.info("="*70)
+    logger.info("RECOLECCIÓN COMPLETADA")
+    logger.info(f"  Total registros: {len(df_combined)}")
+    logger.info(f"  Estaciones únicas: {df_combined['station_id'].nunique()}")
+    logger.info(f"  Variables únicas: {df_combined['variable'].nunique()}")
+    logger.info(f"  Archivo: {SPATIAL_CSV}")
+    logger.info("="*70)
 
 # ============================================================================
 # MAIN
@@ -353,7 +227,7 @@ def collect_data():
 
 if __name__ == "__main__":
     try:
-        collect_data()
+        collect_all_data()
     except Exception as e:
         logger.error(f"Error fatal: {e}", exc_info=True)
         sys.exit(1)
