@@ -1,17 +1,18 @@
-import requests
-import pandas as pd
-from datetime import datetime
+# arif_spatial_collector.py
+import sys
 from pathlib import Path
+import pandas as pd
+import requests
+from datetime import datetime
 import time
 import logging
-import sys
+import re
 
 # ============================================================================
 # CONFIGURACIÓN
 # ============================================================================
 
 ARIF_BASE_URL = "http://www.agrometeopuglia.it"
-ARIF_API_KEY = "ef7ac29ab10f5d7b827291820308920646a9733477648fd3d2bcace396f687b29752ae715adbff1a8fad70df781d06ad"
 
 DATA_DIR = Path("data/arif")
 LOGS_DIR = Path("logs")
@@ -20,7 +21,7 @@ LOGS_DIR.mkdir(parents=True, exist_ok=True)
 
 SPATIAL_CSV = DATA_DIR / "arif_spatial_timeseries.csv"
 
-# Variables espaciales
+# Variables espaciales activas en el servidor
 VARIABLES = {
     "T": "tair_hourly",
     "H": "rh_hourly",
@@ -61,30 +62,62 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # ============================================================================
-# SESIÓN HTTP
+# CAPTURA DE API KEY (PLAYWRIGHT)
 # ============================================================================
 
-session = requests.Session()
-session.headers.update({
-    "Accept": "application/json, text/javascript, */*; q=0.01",
-    "Accept-Language": "es-419,es;q=0.9",
-    "X-Requested-With": "XMLHttpRequest",
-    "Referer": f"{ARIF_BASE_URL}/osservazioni/mappa-stazioni-meteo",
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
-})
-
-session.cookies.set('nibirumail_cookie_advice', '1', 
-                   domain='www.agrometeopuglia.it', path='/')
+def capturar_api_key_autonomo() -> str:
+    """Inicia un navegador headless, emula clics e intercepta la API Key activa"""
+    logger.info("Iniciando navegador Playwright para capturar clave...")
+    from playwright.sync_api import sync_playwright
+    api_key_capturada = None
+    
+    with sync_playwright() as p:
+        try:
+            browser = p.chromium.launch(headless=True)
+            context = browser.new_context(
+                user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+            )
+            page = context.new_page()
+            
+            # Interceptor de red
+            def interceptar(request):
+                nonlocal api_key_capturada
+                url = request.url
+                if "api=" in url:
+                    match = re.search(r'api=([a-f0-9]{90,110})', url, re.IGNORECASE)
+                    if match and not api_key_capturada:
+                        api_key_capturada = match.group(1)
+            
+            page.on("request", interceptar)
+            
+            page.goto(f"{ARIF_BASE_URL}/osservazioni/mappa-stazioni-meteo", timeout=45000)
+            page.wait_for_selector(".leaflet-marker-icon", timeout=20000)
+            
+            # Hacer clic en un marcador
+            page.locator(".leaflet-marker-icon").first.click(force=True)
+            page.wait_for_timeout(2000)
+            
+            # Hacer clic en Dettagli
+            enlaces_detalles = page.locator("a:has-text('Dettagli'), a:has-text('dettagli')")
+            if enlaces_detalles.count() > 0:
+                enlaces_detalles.first.click(force=True)
+                page.wait_for_timeout(4000)
+                
+            browser.close()
+        except Exception as e:
+            logger.error(f"Fallo en la navegación de Playwright: {e}")
+            
+    return api_key_capturada
 
 # ============================================================================
 # DESCARGA DE DATOS
 # ============================================================================
 
-def download_variable(api_code: str, fallback_name: str) -> list:
+def download_variable(session: requests.Session, api_key: str, api_code: str, fallback_name: str) -> list:
     """Descargar datos de UNA variable para TODAS las estaciones"""
     url = f"{ARIF_BASE_URL}/api/osservazioni/stazioni"
     params = {
-        'api': ARIF_API_KEY,
+        'api': api_key,
         'variable': api_code
     }
     
@@ -103,12 +136,11 @@ def download_variable(api_code: str, fallback_name: str) -> list:
             logger.warning(f"  Vacío")
             return []
         
-        logger.info(f"  ✓ {len(data)} registros")
+        logger.info(f"  ✓ {len(data)} registros obtenidos")
         
         records = []
         
         for item in data:
-            # Valor numérico
             raw_val = item.get('VALORE')
             value = None
             if raw_val is not None:
@@ -117,7 +149,6 @@ def download_variable(api_code: str, fallback_name: str) -> list:
                 except:
                     value = str(raw_val).strip()
             
-            # Normalizar fecha: DD-MM-YYYY HH:MM:SS -> YYYY-MM-DD HH:MM:SS
             raw_date = item.get('DATA', '').strip()
             clean_date = raw_date
             
@@ -128,12 +159,10 @@ def download_variable(api_code: str, fallback_name: str) -> list:
                 
                 date_parts = date_part.split('-')
                 if len(date_parts) == 3 and len(date_parts[2]) == 4:
-                    # DD-MM-YYYY -> YYYY-MM-DD
                     clean_date = f"{date_parts[2]}-{date_parts[1]}-{date_parts[0]}"
                     if time_part:
                         clean_date = f"{clean_date} {time_part}"
             
-            # Mapeo dinámico de variable y unidad
             grandezza = item.get('COD_GRANDEZZA', '')
             mapping_key = (api_code, grandezza)
             
@@ -143,7 +172,6 @@ def download_variable(api_code: str, fallback_name: str) -> list:
                 var_name = fallback_name
                 unit = ""
             
-            # Crear registro
             record = {
                 'station_id': item.get('COD_STAZIONE'),
                 'station_name': item.get('NOME_STAZIONE'),
@@ -170,55 +198,68 @@ def collect_all_data():
     logger.info("INICIO RECOLECCIÓN ARIF SPATIAL")
     logger.info("="*70)
     
-    all_records = []
+    # 1. Obtener clave dinámica de sesión
+    api_key = capturar_api_key_autonomo()
+    if not api_key:
+        logger.error("No se pudo obtener una API Key válida. Cancelando ejecución.")
+        sys.exit(1)
+        
+    logger.info(f"API Key activa establecida para descargas directas: {api_key[:15]}...")
     
+    # 2. Inicializar cliente HTTP con credenciales
+    session = requests.Session()
+    session.headers.update({
+        "Accept": "application/json, text/javascript, */*; q=0.01",
+        "Accept-Language": "es-419,es;q=0.9",
+        "X-Requested-With": "XMLHttpRequest",
+        "Referer": f"{ARIF_BASE_URL}/osservazioni/mappa-stazioni-meteo",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+    })
+    for dom in ["www.agrometeopuglia.it", "agrometeopuglia.it", ".agrometeopuglia.it"]:
+        session.cookies.set('nibirumail_cookie_advice', '1', domain=dom, path='/')
+    
+    # 3. Descargar cada variable
+    all_records = []
     for api_code, fallback_name in VARIABLES.items():
-        records = download_variable(api_code, fallback_name)
+        records = download_variable(session, api_key, api_code, fallback_name)
         all_records.extend(records)
-        time.sleep(0.5)  # Delay entre variables
+        time.sleep(0.5)
     
     if not all_records:
-        logger.error("No se obtuvieron datos")
+        logger.error("No se obtuvieron registros de ninguna variable.")
         sys.exit(1)
     
-    # Crear DataFrame
     df_new = pd.DataFrame(all_records)
+    logger.info(f"Nuevos registros obtenidos en esta corrida: {len(df_new)}")
     
-    logger.info(f"Nuevos registros: {len(df_new)}")
-    
-    # Combinar con datos existentes
+    # 4. Consolidar con el historial existente
     if SPATIAL_CSV.exists():
         try:
             df_prev = pd.read_csv(SPATIAL_CSV)
             df_combined = pd.concat([df_prev, df_new], ignore_index=True)
-            
-            # Eliminar duplicados
             df_combined = df_combined.drop_duplicates(
                 subset=['station_id', 'datetime_local', 'variable'],
                 keep='last'
             )
-            
-            logger.info(f"Registros previos: {len(df_prev)}")
-            logger.info(f"Después de deduplicar: {len(df_combined)}")
+            logger.info(f"Registros previos cargados: {len(df_prev)}")
+            logger.info(f"Total registros únicos consolidados: {len(df_combined)}")
         except Exception as e:
-            logger.warning(f"Error leyendo CSV previo: {e}")
+            logger.warning(f"Error procesando CSV histórico: {e}")
             df_combined = df_new
     else:
         df_combined = df_new
     
-    # Ordenar y guardar
     df_combined = df_combined.sort_values(
         by=['datetime_local', 'station_id', 'variable']
     )
     
-    df_combined.to_csv(SPATIAL_CSV, index=False, encoding='utf-8')
+    df_combined.to_csv(SPATIAL_CSV, index=False, encoding='utf-8-sig')
     
     logger.info("="*70)
-    logger.info("RECOLECCIÓN COMPLETADA")
-    logger.info(f"  Total registros: {len(df_combined)}")
-    logger.info(f"  Estaciones únicas: {df_combined['station_id'].nunique()}")
-    logger.info(f"  Variables únicas: {df_combined['variable'].nunique()}")
-    logger.info(f"  Archivo: {SPATIAL_CSV}")
+    logger.info("RECOLECCIÓN COMPLETADA CON ÉXITO")
+    print(f"  Total registros: {len(df_combined)}")
+    print(f"  Estaciones únicas: {df_combined['station_id'].nunique()}")
+    print(f"  Variables únicas: {df_combined['variable'].nunique()}")
     logger.info("="*70)
 
 # ============================================================================
@@ -229,5 +270,5 @@ if __name__ == "__main__":
     try:
         collect_all_data()
     except Exception as e:
-        logger.error(f"Error fatal: {e}", exc_info=True)
+        logger.error(f"Error fatal en la ejecución: {e}", exc_info=True)
         sys.exit(1)
