@@ -20,28 +20,11 @@ jobs:
       with:
         python-version: '3.10'
     
-    - name: Install system dependencies
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y \
-          libnss3 \
-          libnspr4 \
-          libatk1.0-0 \
-          libatk-bridge2.0-0 \
-          libcups2 \
-          libdrm2 \
-          libxkbcommon0 \
-          libxcomposite1 \
-          libxdamage1 \
-          libxfixes3 \
-          libxrandr2 \
-          libgbm1 \
-          libasound2
+    - name: Install Python dependencies
+      run: pip install pandas requests playwright
     
-    - name: Install dependencies
-      run: |
-        pip install pandas requests playwright beautifulsoup4
-        playwright install chromium --with-deps
+    - name: Install Playwright and dependencies
+      run: playwright install --with-deps chromium
     
     - name: Run spatial collector
       run: python arif_spatial_collector.py
