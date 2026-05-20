@@ -3,3 +3,280 @@
 2026-05-20 08:00:54,400 - INFO - ======================================================================
 2026-05-20 08:00:54,400 - ERROR - Archivo de estaciones no encontrado: data\arif\stations.csv
 2026-05-20 08:00:54,402 - ERROR - Ejecutá primero el script de setup para descargar el catálogo
+2026-05-20 15:37:42,741 - INFO - Sesión creada con cookie: <RequestsCookieJar[<Cookie nibirumail_cookie_advice=1 for www.agrometeopuglia.it/>]>
+2026-05-20 15:37:42,742 - INFO - ======================================================================
+2026-05-20 15:37:42,742 - INFO - INICIO RECOLECCIÓN ARIF
+2026-05-20 15:37:42,742 - INFO - ======================================================================
+2026-05-20 15:37:42,744 - INFO - Estaciones a procesar: 85
+2026-05-20 15:37:42,744 - INFO - Procesando 0PU01 - GUROLAMANNA
+2026-05-20 15:37:43,211 - INFO -   13 sensores encontrados
+2026-05-20 15:37:48,563 - INFO -   ✓ 13/13 sensores con datos
+2026-05-20 15:37:49,066 - INFO - Procesando 0PU03 - LIMELLI D'IMPERATORE
+2026-05-20 15:37:49,220 - INFO -   13 sensores encontrados
+2026-05-20 15:37:54,564 - INFO -   ✓ 13/13 sensores con datos
+2026-05-20 15:37:55,066 - INFO - Procesando 0PU04 - OTTAVA SEDICI
+2026-05-20 15:37:55,219 - INFO -   13 sensores encontrados
+2026-05-20 15:38:00,557 - INFO -   ✓ 13/13 sensores con datos
+2026-05-20 15:38:01,060 - INFO - Procesando 0PU06 - MAINE
+2026-05-20 15:38:01,214 - INFO -   13 sensores encontrados
+2026-05-20 15:38:06,616 - INFO -   ✓ 13/13 sensores con datos
+2026-05-20 15:38:07,118 - INFO - Procesando 0PU07 - TRIONFO
+2026-05-20 15:38:07,267 - INFO -   13 sensores encontrados
+2026-05-20 15:38:12,601 - INFO -   ✓ 13/13 sensores con datos
+2026-05-20 15:38:13,104 - INFO - Procesando 0PU08 - TORRETTA
+2026-05-20 15:38:13,258 - INFO -   13 sensores encontrados
+2026-05-20 15:38:18,590 - INFO -   ✓ 13/13 sensores con datos
+2026-05-20 15:38:19,093 - INFO - Procesando 0PU10 - FRASSANITO
+2026-05-20 15:38:19,246 - INFO -   13 sensores encontrados
+2026-05-20 15:38:24,588 - INFO -   ✓ 13/13 sensores con datos
+2026-05-20 15:38:25,090 - INFO - Procesando 0PU11 - BADESSA
+2026-05-20 15:38:25,244 - INFO -   13 sensores encontrados
+2026-05-20 15:38:30,886 - INFO -   ✓ 13/13 sensores con datos
+2026-05-20 15:38:31,389 - INFO - Procesando 0PU12 - CONTE
+2026-05-20 15:38:31,540 - INFO -   13 sensores encontrados
+2026-05-20 15:38:36,853 - INFO -   ✓ 13/13 sensores con datos
+2026-05-20 15:38:37,355 - INFO - Procesando 0PU13 - TORRICELLA
+2026-05-20 15:38:37,505 - INFO -   13 sensores encontrados
+2026-05-20 15:38:42,733 - INFO -   ✓ 13/13 sensores con datos
+2026-05-20 15:38:43,235 - INFO - Progreso: 10/85 (1.0 min)
+2026-05-20 15:38:43,236 - INFO - Procesando 0PU14 - TAFURI
+2026-05-20 15:38:43,387 - INFO -   13 sensores encontrados
+2026-05-20 15:38:48,704 - INFO -   ✓ 13/13 sensores con datos
+2026-05-20 15:38:49,206 - INFO - Procesando 0PU16 - ANDRIA
+2026-05-20 15:38:49,357 - INFO -   13 sensores encontrados
+2026-05-20 15:38:54,667 - INFO -   ✓ 13/13 sensores con datos
+2026-05-20 15:38:55,169 - INFO - Procesando 0PU17 - OSTUNI-SAROLO
+2026-05-20 15:38:55,320 - INFO -   13 sensores encontrados
+2026-05-20 15:39:00,634 - INFO -   ✓ 13/13 sensores con datos
+2026-05-20 15:39:01,137 - INFO - Procesando 0PU18 - MONOPOLI
+2026-05-20 15:39:01,289 - INFO -   13 sensores encontrados
+2026-05-20 15:39:06,678 - INFO -   ✓ 13/13 sensores con datos
+2026-05-20 15:39:07,181 - INFO - Procesando 0PU19 - TERLIZZI
+2026-05-20 15:39:07,332 - INFO -   13 sensores encontrados
+2026-05-20 15:39:12,901 - INFO -   ✓ 13/13 sensores con datos
+2026-05-20 15:39:13,404 - INFO - Procesando 0PU20 - VILLA CASTELLI
+2026-05-20 15:39:13,548 - INFO -   13 sensores encontrados
+2026-05-20 15:39:18,767 - INFO -   ✓ 13/13 sensores con datos
+2026-05-20 15:39:19,269 - INFO - Procesando 0PU21 - CAROVIGNO
+2026-05-20 15:39:19,413 - INFO -   13 sensores encontrados
+2026-05-20 15:39:24,633 - INFO -   ✓ 13/13 sensores con datos
+2026-05-20 15:39:25,136 - INFO - Procesando 0PU22 - APRICENA
+2026-05-20 15:39:25,281 - INFO -   13 sensores encontrados
+2026-05-20 15:39:30,503 - INFO -   ✓ 13/13 sensores con datos
+2026-05-20 15:39:31,006 - INFO - Procesando 0PU23 - MANFREDONIA
+2026-05-20 15:39:31,151 - INFO -   13 sensores encontrados
+2026-05-20 15:39:36,375 - INFO -   ✓ 13/13 sensores con datos
+2026-05-20 15:39:36,877 - INFO - Procesando 0PU25 - NOCIGLIA
+2026-05-20 15:39:37,021 - INFO -   13 sensores encontrados
+2026-05-20 15:39:42,247 - INFO -   ✓ 13/13 sensores con datos
+2026-05-20 15:39:42,749 - INFO - Progreso: 20/85 (2.0 min)
+2026-05-20 15:39:42,750 - INFO - Procesando 0PU27 - GROTTAGLIE
+2026-05-20 15:39:42,894 - INFO -   13 sensores encontrados
+2026-05-20 15:39:47,537 - INFO -   ✓ 13/13 sensores con datos
+2026-05-20 15:39:48,039 - INFO - Procesando 0PU28 - TRANI
+2026-05-20 15:39:48,186 - INFO -   13 sensores encontrados
+2026-05-20 15:39:53,728 - INFO -   ✓ 13/13 sensores con datos
+2026-05-20 15:39:54,231 - INFO - Procesando 0PU30 - NOICATTARO
+2026-05-20 15:39:54,375 - INFO -   13 sensores encontrados
+2026-05-20 15:39:59,596 - INFO -   ✓ 13/13 sensores con datos
+2026-05-20 15:40:00,099 - INFO - Procesando 0PU31 - ALBEROBELLO
+2026-05-20 15:40:00,242 - INFO -   13 sensores encontrados
+2026-05-20 15:40:05,466 - INFO -   ✓ 13/13 sensores con datos
+2026-05-20 15:40:05,968 - INFO - Procesando 0PU32 - TORRE MOZZA
+2026-05-20 15:40:06,112 - INFO -   13 sensores encontrados
+2026-05-20 15:40:10,555 - INFO -   ✓ 0/13 sensores con datos
+2026-05-20 15:40:11,056 - INFO - Procesando 0PU33 - MOCCARI
+2026-05-20 15:40:11,199 - INFO -   13 sensores encontrados
+2026-05-20 15:40:16,419 - INFO -   ✓ 13/13 sensores con datos
+2026-05-20 15:40:16,922 - INFO - Procesando 0PU34 - LATIANO
+2026-05-20 15:40:17,065 - INFO -   13 sensores encontrados
+2026-05-20 15:40:22,289 - INFO -   ✓ 13/13 sensores con datos
+2026-05-20 15:40:22,791 - INFO - Procesando 0PU35 - SAN VITO DEI NORMANNI
+2026-05-20 15:40:22,967 - INFO -   13 sensores encontrados
+2026-05-20 15:40:28,210 - INFO -   ✓ 13/13 sensores con datos
+2026-05-20 15:40:28,712 - INFO - Procesando 0PU36 - VILLANOVA
+2026-05-20 15:40:28,857 - INFO -   13 sensores encontrados
+2026-05-20 15:40:34,407 - INFO -   ✓ 13/13 sensores con datos
+2026-05-20 15:40:34,909 - INFO - Procesando 0PU37 - TROIA
+2026-05-20 15:40:35,061 - INFO -   13 sensores encontrados
+2026-05-20 15:40:40,383 - INFO -   ✓ 13/13 sensores con datos
+2026-05-20 15:40:40,885 - INFO - Progreso: 30/85 (3.0 min)
+2026-05-20 15:40:40,885 - INFO - Procesando 0PU38 - BORGO LA ROCCA
+2026-05-20 15:40:41,038 - INFO -   13 sensores encontrados
+2026-05-20 15:40:46,371 - INFO -   ✓ 13/13 sensores con datos
+2026-05-20 15:40:46,873 - INFO - Procesando 0PU40 - ARCHE
+2026-05-20 15:40:47,026 - INFO -   13 sensores encontrados
+2026-05-20 15:40:52,354 - INFO -   ✓ 13/13 sensores con datos
+2026-05-20 15:40:52,856 - INFO - Procesando 0PU41 - LECCE
+2026-05-20 15:40:53,009 - INFO -   13 sensores encontrados
+2026-05-20 15:40:58,331 - INFO -   ✓ 13/13 sensores con datos
+2026-05-20 15:40:58,834 - INFO - Procesando 0PU42 - SALICE SALENTINO
+2026-05-20 15:40:58,986 - INFO -   13 sensores encontrados
+2026-05-20 15:41:04,335 - INFO -   ✓ 13/13 sensores con datos
+2026-05-20 15:41:04,838 - INFO - Procesando 0PU43 - LUCUGNANO
+2026-05-20 15:41:04,991 - INFO -   13 sensores encontrados
+2026-05-20 15:41:10,312 - INFO -   ✓ 13/13 sensores con datos
+2026-05-20 15:41:10,814 - INFO - Procesando 0PU44 - MANDURIA
+2026-05-20 15:41:10,966 - INFO -   13 sensores encontrados
+2026-05-20 15:41:16,288 - INFO -   ✓ 13/13 sensores con datos
+2026-05-20 15:41:16,790 - INFO - Procesando 0PU45 - MOTTOLA
+2026-05-20 15:41:16,942 - INFO -   13 sensores encontrados
+2026-05-20 15:41:22,561 - INFO -   ✓ 13/13 sensores con datos
+2026-05-20 15:41:23,063 - INFO - Procesando 0PU46 - MASSAFRA
+2026-05-20 15:41:23,213 - INFO -   13 sensores encontrados
+2026-05-20 15:41:28,556 - INFO -   ✓ 13/13 sensores con datos
+2026-05-20 15:41:29,059 - INFO - Procesando 0PU47 - CASTELLANETA
+2026-05-20 15:41:29,209 - INFO -   13 sensores encontrados
+2026-05-20 15:41:34,527 - INFO -   ✓ 13/13 sensores con datos
+2026-05-20 15:41:35,030 - INFO - Procesando 0PU48 - BARI C.N.R. IRSA
+2026-05-20 15:41:35,180 - INFO -   14 sensores encontrados
+2026-05-20 15:41:40,871 - INFO -   ✓ 14/14 sensores con datos
+2026-05-20 15:41:41,373 - INFO - Progreso: 40/85 (4.0 min)
+2026-05-20 15:41:41,373 - INFO - Procesando 0PU49 - LOCOROTONDO ITAS
+2026-05-20 15:41:41,522 - INFO -   14 sensores encontrados
+2026-05-20 15:41:47,216 - INFO -   ✓ 14/14 sensores con datos
+2026-05-20 15:41:47,718 - INFO - Procesando 0PU52 - CONVERSANO
+2026-05-20 15:41:47,869 - INFO -   14 sensores encontrados
+2026-05-20 15:41:52,744 - INFO -   ✓ 0/14 sensores con datos
+2026-05-20 15:41:53,245 - INFO - Procesando 0PU53 - TORITTO
+2026-05-20 15:41:53,395 - INFO -   14 sensores encontrados
+2026-05-20 15:41:59,090 - INFO -   ✓ 14/14 sensores con datos
+2026-05-20 15:41:59,593 - INFO - Procesando 0PU54 - TORRE SANTA SUSANNA
+2026-05-20 15:42:00,042 - INFO -   14 sensores encontrados
+2026-05-20 15:42:05,663 - INFO -   ✓ 14/14 sensores con datos
+2026-05-20 15:42:06,166 - INFO - Procesando 0PU55 - LESINA-RIPALTA
+2026-05-20 15:42:06,310 - INFO -   14 sensores encontrados
+2026-05-20 15:42:11,917 - INFO -   ✓ 14/14 sensores con datos
+2026-05-20 15:42:12,419 - INFO - Procesando 0PU56 - CARLANTINO
+2026-05-20 15:42:12,564 - INFO -   14 sensores encontrados
+2026-05-20 15:42:18,173 - INFO -   ✓ 14/14 sensores con datos
+2026-05-20 15:42:18,676 - INFO - Procesando 0PU57 - SANT'AGATA DI PUGLIA
+2026-05-20 15:42:18,820 - INFO -   14 sensores encontrados
+2026-05-20 15:42:24,460 - INFO -   ✓ 14/14 sensores con datos
+2026-05-20 15:42:24,962 - INFO - Procesando 0PU58 - GINOSA
+2026-05-20 15:42:25,113 - INFO -   14 sensores encontrados
+2026-05-20 15:42:30,758 - INFO -   ✓ 14/14 sensores con datos
+2026-05-20 15:42:31,261 - INFO - Procesando 0PU59 - PALAGIANELLO
+2026-05-20 15:42:31,404 - INFO -   14 sensores encontrados
+2026-05-20 15:42:37,018 - INFO -   ✓ 14/14 sensores con datos
+2026-05-20 15:42:37,520 - INFO - Procesando 0PU60 - MINERVINO DI LECCE
+2026-05-20 15:42:37,670 - INFO -   14 sensores encontrados
+2026-05-20 15:42:43,593 - INFO -   ✓ 14/14 sensores con datos
+2026-05-20 15:42:44,095 - INFO - Progreso: 50/85 (5.0 min)
+2026-05-20 15:42:44,095 - INFO - Procesando 0PU61 - NARDO'
+2026-05-20 15:42:44,238 - INFO -   14 sensores encontrados
+2026-05-20 15:42:49,846 - INFO -   ✓ 14/14 sensores con datos
+2026-05-20 15:42:50,348 - INFO - Procesando MBA20 - IPSAA
+2026-05-20 15:42:50,490 - INFO -   6 sensores encontrados
+2026-05-20 15:42:52,893 - INFO -   ✓ 6/6 sensores con datos
+2026-05-20 15:42:53,395 - INFO - Procesando MBA21 - MONTEGROSSO
+2026-05-20 15:42:53,537 - INFO -   6 sensores encontrados
+2026-05-20 15:42:55,937 - INFO -   ✓ 6/6 sensores con datos
+2026-05-20 15:42:56,439 - INFO - Procesando MBA22 - S.P. SANTERAMO
+2026-05-20 15:42:56,581 - INFO -   6 sensores encontrados
+2026-05-20 15:42:58,977 - INFO -   ✓ 6/6 sensores con datos
+2026-05-20 15:42:59,480 - INFO - Procesando MBA23 - GRAVINA IN PUGLIA
+2026-05-20 15:42:59,622 - INFO -   6 sensores encontrados
+2026-05-20 15:43:01,672 - INFO -   ✓ 0/6 sensores con datos
+2026-05-20 15:43:02,173 - INFO - Procesando MBA24 - CASSANO DELLE MURGE
+2026-05-20 15:43:02,315 - INFO -   6 sensores encontrados
+2026-05-20 15:43:04,726 - INFO -   ✓ 6/6 sensores con datos
+2026-05-20 15:43:05,228 - INFO - Procesando MBA25 - SANTERAMO IN COLLE
+2026-05-20 15:43:05,370 - INFO -   6 sensores encontrados
+2026-05-20 15:43:07,767 - INFO -   ✓ 6/6 sensores con datos
+2026-05-20 15:43:08,269 - INFO - Procesando MBA26 - CAMPO SPER. UNIBA
+2026-05-20 15:43:08,411 - INFO -   6 sensores encontrados
+2026-05-20 15:43:10,811 - INFO -   ✓ 6/6 sensores con datos
+2026-05-20 15:43:11,313 - INFO - Procesando MBA27 - SERRONE(AZ.AGR.MANCINI)
+2026-05-20 15:43:11,455 - INFO -   6 sensores encontrados
+2026-05-20 15:43:13,855 - INFO -   ✓ 6/6 sensores con datos
+2026-05-20 15:43:14,357 - INFO - Procesando MBA28 - MURGIA ANTICI
+2026-05-20 15:43:14,499 - INFO -   6 sensores encontrados
+2026-05-20 15:43:16,900 - INFO -   ✓ 6/6 sensores con datos
+2026-05-20 15:43:17,402 - INFO - Progreso: 60/85 (5.6 min)
+2026-05-20 15:43:17,402 - INFO - Procesando MBA29 - LAMENDOLA I
+2026-05-20 15:43:17,544 - INFO -   6 sensores encontrados
+2026-05-20 15:43:19,946 - INFO -   ✓ 6/6 sensores con datos
+2026-05-20 15:43:20,448 - INFO - Procesando MBR30 - FASCIANELLO
+2026-05-20 15:43:20,589 - INFO -   6 sensores encontrados
+2026-05-20 15:43:22,981 - INFO -   ✓ 6/6 sensores con datos
+2026-05-20 15:43:23,483 - INFO - Procesando MBR31 - FERRUZZO
+2026-05-20 15:43:23,625 - INFO -   6 sensores encontrados
+2026-05-20 15:43:26,370 - INFO -   ✓ 6/6 sensores con datos
+2026-05-20 15:43:26,872 - INFO - Procesando MFG01 - S. LUCIA
+2026-05-20 15:43:27,023 - INFO -   6 sensores encontrados
+2026-05-20 15:43:29,478 - INFO -   ✓ 6/6 sensores con datos
+2026-05-20 15:43:29,980 - INFO - Procesando MFG02 - SERRA DEI BISI
+2026-05-20 15:43:30,131 - INFO -   6 sensores encontrados
+2026-05-20 15:43:32,583 - INFO -   ✓ 6/6 sensores con datos
+2026-05-20 15:43:33,085 - INFO - Procesando MFG03 - LA PESCIA
+2026-05-20 15:43:33,236 - INFO -   6 sensores encontrados
+2026-05-20 15:43:35,691 - INFO -   ✓ 6/6 sensores con datos
+2026-05-20 15:43:36,193 - INFO - Procesando MFG04 - TRE SANTI
+2026-05-20 15:43:36,344 - INFO -   6 sensores encontrados
+2026-05-20 15:43:38,798 - INFO -   ✓ 6/6 sensores con datos
+2026-05-20 15:43:39,300 - INFO - Procesando MFG05 - RIVOLI
+2026-05-20 15:43:39,451 - INFO -   6 sensores encontrados
+2026-05-20 15:43:41,886 - INFO -   ✓ 6/6 sensores con datos
+2026-05-20 15:43:42,388 - INFO - Procesando MFG06 - TAVOLETTA
+2026-05-20 15:43:42,540 - INFO -   6 sensores encontrados
+2026-05-20 15:43:44,992 - INFO -   ✓ 6/6 sensores con datos
+2026-05-20 15:43:45,494 - INFO - Procesando MFG07 - COPPA D'ORO
+2026-05-20 15:43:45,649 - INFO -   6 sensores encontrados
+2026-05-20 15:43:47,986 - INFO -   ✓ 6/6 sensores con datos
+2026-05-20 15:43:48,488 - INFO - Progreso: 70/85 (6.1 min)
+2026-05-20 15:43:48,488 - INFO - Procesando MFG09 - ARIOLA
+2026-05-20 15:43:48,640 - INFO -   6 sensores encontrados
+2026-05-20 15:43:51,101 - INFO -   ✓ 6/6 sensores con datos
+2026-05-20 15:43:51,603 - INFO - Procesando MFG10 - MATINE CARNE SALATA
+2026-05-20 15:43:51,756 - INFO -   6 sensores encontrados
+2026-05-20 15:43:54,209 - INFO -   ✓ 6/6 sensores con datos
+2026-05-20 15:43:54,711 - INFO - Procesando MFG11 - SELVA DELLE GROTTE
+2026-05-20 15:43:54,863 - INFO -   6 sensores encontrados
+2026-05-20 15:43:57,316 - INFO -   ✓ 6/6 sensores con datos
+2026-05-20 15:43:57,818 - INFO - Procesando MFG12 - SERRONE
+2026-05-20 15:43:57,970 - INFO -   6 sensores encontrados
+2026-05-20 15:44:00,073 - INFO -   ✓ 0/6 sensores con datos
+2026-05-20 15:44:00,574 - INFO - Procesando MFG13 - BISCIGLIETO
+2026-05-20 15:44:00,727 - INFO -   6 sensores encontrados
+2026-05-20 15:44:03,182 - INFO -   ✓ 6/6 sensores con datos
+2026-05-20 15:44:03,684 - INFO - Procesando MFG14 - S. LUCIA
+2026-05-20 15:44:03,836 - INFO -   6 sensores encontrados
+2026-05-20 15:44:06,289 - INFO -   ✓ 6/6 sensores con datos
+2026-05-20 15:44:06,791 - INFO - Procesando MFG15 - CASA LORDA
+2026-05-20 15:44:06,943 - INFO -   6 sensores encontrados
+2026-05-20 15:44:09,436 - INFO -   ✓ 6/6 sensores con datos
+2026-05-20 15:44:09,938 - INFO - Procesando MFG16 - QUERCIA COPPE
+2026-05-20 15:44:10,089 - INFO -   6 sensores encontrados
+2026-05-20 15:44:12,861 - INFO -   ✓ 6/6 sensores con datos
+2026-05-20 15:44:13,363 - INFO - Procesando MFG17 - CARRO CHIUSO
+2026-05-20 15:44:13,512 - INFO -   6 sensores encontrados
+2026-05-20 15:44:15,957 - INFO -   ✓ 6/6 sensores con datos
+2026-05-20 15:44:16,459 - INFO - Procesando MFG18 - VIESTE
+2026-05-20 15:44:16,608 - INFO -   6 sensores encontrados
+2026-05-20 15:44:19,050 - INFO -   ✓ 6/6 sensores con datos
+2026-05-20 15:44:19,552 - INFO - Progreso: 80/85 (6.6 min)
+2026-05-20 15:44:19,552 - INFO - Procesando MFG19 - FOGGIA MONTEROZZI
+2026-05-20 15:44:19,701 - INFO -   7 sensores encontrados
+2026-05-20 15:44:22,515 - INFO -   ✓ 7/7 sensores con datos
+2026-05-20 15:44:23,017 - INFO - Procesando MLE34 - BARBARO
+2026-05-20 15:44:23,166 - INFO -   6 sensores encontrados
+2026-05-20 15:44:25,610 - INFO -   ✓ 6/6 sensores con datos
+2026-05-20 15:44:26,112 - INFO - Procesando MLE35 - MALOPRA
+2026-05-20 15:44:26,262 - INFO -   6 sensores encontrados
+2026-05-20 15:44:28,707 - INFO -   ✓ 6/6 sensores con datos
+2026-05-20 15:44:29,209 - INFO - Procesando MTA32 - MARTINA FRANCA
+2026-05-20 15:44:29,358 - INFO -   6 sensores encontrados
+2026-05-20 15:44:31,802 - INFO -   ✓ 6/6 sensores con datos
+2026-05-20 15:44:32,304 - INFO - Procesando MTA33 - SAN GIORGIO IONICO
+2026-05-20 15:44:32,453 - INFO -   6 sensores encontrados
+2026-05-20 15:44:34,546 - INFO -   ✓ 0/6 sensores con datos
+2026-05-20 15:44:35,091 - INFO - ======================================================================
+2026-05-20 15:44:35,091 - INFO - RECOLECCIÓN COMPLETADA
+2026-05-20 15:44:35,091 - INFO -   Exitosas: 80/85
+2026-05-20 15:44:35,091 - INFO -   Fallidas: 5/85
+2026-05-20 15:44:35,091 - INFO -   Nuevos registros: 80
+2026-05-20 15:44:35,091 - INFO -   Total acumulado: 80
+2026-05-20 15:44:35,091 - INFO -   Variables: 50
+2026-05-20 15:44:35,091 - INFO -   Tiempo: 6.9 minutos
+2026-05-20 15:44:35,092 - INFO - ======================================================================
