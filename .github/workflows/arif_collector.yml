@@ -1,8 +1,8 @@
-name: ARIF Hourly Data Collection
+name: ARIF Spatial Data Collection
 
 on:
   schedule:
-    - cron: '5,35 * * * *'
+    - cron: '5 * * * *'  # Una vez por hora
   workflow_dispatch:
 
 jobs:
@@ -22,14 +22,14 @@ jobs:
     - name: Install dependencies
       run: pip install pandas requests
     
-    - name: Run collector
-      run: python arif_hourly_collector.py
+    - name: Run spatial collector
+      run: python arif_spatial_collector.py
     
     - name: Commit and push
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         git add data/ logs/
-        git diff --quiet && git diff --staged --quiet || git commit -m "Update ARIF data $(date -u +"%Y-%m-%d %H:%M UTC")"
+        git diff --quiet && git diff --staged --quiet || git commit -m "Update ARIF spatial data $(date -u +"%Y-%m-%d %H:%M UTC")"
         git push
       continue-on-error: true
