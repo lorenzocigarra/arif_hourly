@@ -1,5 +1,3 @@
-# arif_hourly_collector.py
-
 import sys
 from pathlib import Path
 import pandas as pd
@@ -8,43 +6,36 @@ from datetime import datetime, timedelta
 import time
 import json
 import logging
-from typing import Optional, Dict, List, Tuple
+from typing import Optional, Dict, List
 
 # ============================================================================
 # CONFIGURACIÓN
 # ============================================================================
 
 ARIF_BASE_URL = "http://www.agrometeopuglia.it"
-ARIF_API_KEY = "ef7ac29ab10f5d7b827291820308920646a9733477648fd3d2bcace396f687b2f72d94360072416eda0efcc019743d2e"
+ARIF_API_KEY = "ef7ac29ab10f5d7b827291820308920646a9733477648fd3d2bcace396f687b29752ae715adbff1a8fad70df781d06ad"
 
 DATA_DIR = Path("data/arif")
 LOGS_DIR = Path("logs")
 DATA_DIR.mkdir(parents=True, exist_ok=True)
 LOGS_DIR.mkdir(parents=True, exist_ok=True)
 
-# Archivos
 DATA_FILE = DATA_DIR / "arif_hourly_data.csv"
 STATIONS_FILE = DATA_DIR / "stations.csv"
 ERRORS_FILE = LOGS_DIR / "errors.json"
 
-# Reintentos
 MAX_RETRIES = 3
-RETRY_DELAY = 5  # segundos
+RETRY_DELAY = 5
 REQUEST_TIMEOUT = 30
 INTER_STATION_DELAY = 0.5
 INTER_SENSOR_DELAY = 0.2
 
-# Headers
 HEADERS = {
     'Accept': 'application/json, text/javascript, */*; q=0.01',
-    'Accept-Encoding': 'gzip, deflate',
-    'Accept-Language': 'es-419,es;q=0.9',
-    'Connection': 'keep-alive',
-    'DNT': '1',
-    'Host': 'www.agrometeopuglia.it',
+    'Accept-Language': 'es-419,es;q=0.9,es-ES;q=0.8,en;q=0.7',
+    'X-Requested-With': 'XMLHttpRequest',
     'Referer': f'{ARIF_BASE_URL}/osservazioni/mappa-stazioni-meteo',
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
-    'X-Requested-With': 'XMLHttpRequest'
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
 }
 
 # ============================================================================
@@ -65,13 +56,23 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # ============================================================================
-# SESIÓN HTTP
+# SESIÓN HTTP CON COOKIE
 # ============================================================================
 
 def create_session() -> requests.Session:
-    """Crear sesión HTTP con headers"""
+    """Crear sesión HTTP con headers y cookie requerida"""
     session = requests.Session()
     session.headers.update(HEADERS)
+    
+    # CRÍTICO: Setear cookie requerida
+    session.cookies.set(
+        'nibirumail_cookie_advice', 
+        '1', 
+        domain='www.agrometeopuglia.it', 
+        path='/'
+    )
+    
+    logger.info(f"Sesión creada con cookie: {session.cookies}")
     return session
 
 session = create_session()
@@ -89,8 +90,8 @@ def request_with_retry(url: str, params: Dict, retries: int = MAX_RETRIES) -> Op
             return response
         
         except requests.exceptions.HTTPError as e:
-            if e.response.status_code == 401:
-                logger.error(f"API key inválido o expirado")
+            if e.response.status_code in [401, 403]:
+                logger.error(f"Error de autenticación ({e.response.status_code}): {e.response.text[:100]}")
                 return None
             
             if attempt < retries - 1:
@@ -148,7 +149,6 @@ def get_sensor_data(station_id: str, sensor_code: str) -> Optional[Dict]:
             data = response.json()
             
             if data and isinstance(data, list) and len(data) > 0:
-                # Retornar primer elemento con datos
                 return data[0]
         except:
             logger.error(f"Error parseando datos de {station_id}/{sensor_code}")
@@ -182,8 +182,7 @@ def get_all_station_data(station_id: str, station_name: str) -> Optional[pd.Data
             # Agregar todos los valores al diccionario
             for key, value in data.items():
                 if key not in ['station_id', 'timestamp_extraction']:
-                    # Prefijar con código del sensor para evitar colisiones
-                    col_name = f"{sensor_code}_{key}" if key not in ['Data'] else key
+                    col_name = f"{sensor_code}_{key}" if key != 'Data' else key
                     all_sensor_data[col_name] = value
             
             successful_sensors += 1
@@ -193,7 +192,6 @@ def get_all_station_data(station_id: str, station_name: str) -> Optional[pd.Data
     logger.info(f"  ✓ {successful_sensors}/{len(sensors)} sensores con datos")
     
     if all_sensor_data:
-        # Agregar metadatos
         all_sensor_data['station_id'] = station_id
         all_sensor_data['station_name'] = station_name
         all_sensor_data['timestamp_utc'] = datetime.utcnow().isoformat()
@@ -233,19 +231,6 @@ def register_error(station_id: str, error_msg: str, errors: Dict):
     })
 
 # ============================================================================
-# CARGA DE ESTACIONES
-# ============================================================================
-
-def load_stations() -> pd.DataFrame:
-    """Cargar catálogo de estaciones"""
-    if not STATIONS_FILE.exists():
-        logger.error(f"Archivo de estaciones no encontrado: {STATIONS_FILE}")
-        logger.error("Ejecutá primero el script de setup para descargar el catálogo")
-        sys.exit(1)
-    
-    return pd.read_csv(STATIONS_FILE)
-
-# ============================================================================
 # VERIFICACIÓN DE DUPLICADOS
 # ============================================================================
 
@@ -260,11 +245,9 @@ def check_recent_collection() -> bool:
         if 'timestamp_utc' not in df.columns:
             return False
         
-        # Obtener timestamp más reciente
         df['ts'] = pd.to_datetime(df['timestamp_utc'])
         last_collection = df['ts'].max()
         
-        # Si fue hace menos de 50 minutos, skip
         time_diff = datetime.utcnow() - last_collection.to_pydatetime()
         
         if time_diff < timedelta(minutes=50):
@@ -285,19 +268,20 @@ def collect_data():
     logger.info("INICIO RECOLECCIÓN ARIF")
     logger.info("="*70)
     
-    # Verificar si ya se recolectó recientemente
     if check_recent_collection():
         logger.info("Recolección reciente detectada - finalizando")
         return
     
-    # Cargar estaciones
-    stations = load_stations()
+    if not STATIONS_FILE.exists():
+        logger.error(f"Archivo de estaciones no encontrado: {STATIONS_FILE}")
+        logger.error("Ejecutá primero: python setup_arif.py")
+        sys.exit(1)
+    
+    stations = pd.read_csv(STATIONS_FILE)
     logger.info(f"Estaciones a procesar: {len(stations)}")
     
-    # Cargar registro de errores
     errors = load_errors()
     
-    # Recolectar datos
     all_data = []
     successful = 0
     failed = 0
@@ -325,24 +309,19 @@ def collect_data():
         
         time.sleep(INTER_STATION_DELAY)
         
-        # Progreso cada 10 estaciones
         if (idx + 1) % 10 == 0:
             elapsed = (time.time() - start_time) / 60
             logger.info(f"Progreso: {idx+1}/{len(stations)} ({elapsed:.1f} min)")
     
-    # Guardar errores
     save_errors(errors)
     
-    # Procesar y guardar datos
     if all_data:
         new_data = pd.concat(all_data, ignore_index=True)
         
-        # Cargar existentes y combinar
         if DATA_FILE.exists():
             existing = pd.read_csv(DATA_FILE)
             combined = pd.concat([existing, new_data], ignore_index=True)
             
-            # Eliminar duplicados por timestamp y estación
             combined = combined.drop_duplicates(
                 subset=['station_id', 'timestamp_utc'],
                 keep='last'
@@ -350,7 +329,6 @@ def collect_data():
         else:
             combined = new_data
         
-        # Guardar
         combined.to_csv(DATA_FILE, index=False, encoding='utf-8')
         
         elapsed = (time.time() - start_time) / 60
