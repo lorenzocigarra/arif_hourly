@@ -1,0 +1,5 @@
+2026-05-20 08:00:54,393 - INFO - ======================================================================
+2026-05-20 08:00:54,397 - INFO - INICIO RECOLECCIÓN ARIF
+2026-05-20 08:00:54,400 - INFO - ======================================================================
+2026-05-20 08:00:54,400 - ERROR - Archivo de estaciones no encontrado: data\arif\stations.csv
+2026-05-20 08:00:54,402 - ERROR - Ejecutá primero el script de setup para descargar el catálogo
