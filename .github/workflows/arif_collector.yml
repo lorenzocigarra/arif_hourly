@@ -23,7 +23,7 @@ jobs:
     - name: Install dependencies
       run: |
         pip install pandas requests playwright beautifulsoup4
-        playwright install chromium
+        playwright install chromium --with-deps
     
     - name: Run spatial collector
       run: python arif_spatial_collector.py
