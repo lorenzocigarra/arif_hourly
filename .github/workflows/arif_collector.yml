@@ -2,7 +2,7 @@ name: ARIF Spatial Data Collection
 
 on:
   schedule:
-    - cron: '5 * * * *'  # Una vez por hora (Minutos :05)
+    - cron: '5,35 * * * *'  # Dos veces por hora
   workflow_dispatch:
 
 jobs:
@@ -20,11 +20,10 @@ jobs:
       with:
         python-version: '3.10'
     
-    - name: Install Python dependencies
-      run: pip install pandas requests playwright
-    
-    - name: Install Playwright and dependencies
-      run: playwright install --with-deps chromium
+    - name: Install dependencies
+      run: |
+        pip install pandas requests playwright beautifulsoup4
+        playwright install chromium
     
     - name: Run spatial collector
       run: python arif_spatial_collector.py
@@ -37,3 +36,11 @@ jobs:
         git diff --quiet && git diff --staged --quiet || git commit -m "Update ARIF spatial data $(date -u +"%Y-%m-%d %H:%M UTC")"
         git push
       continue-on-error: true
+
+    - name: Upload debug artifacts on failure
+      if: failure()
+      uses: actions/upload-artifact@v3
+      with:
+        name: arif-debug-logs
+        path: |
+          logs/
