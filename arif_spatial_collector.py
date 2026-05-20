@@ -75,10 +75,10 @@ def capturar_api_key_autonomo() -> str:
         try:
             browser = p.chromium.launch(headless=True)
             context = browser.new_context(
-                user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+                user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
             )
             
-            # INYECTAR COOKIE DE CONSENTIMIENTO ANTES DE NAVEGAR
+            # Inyectar cookies de consentimiento
             context.add_cookies([
                 {
                     'name': 'nibirumail_cookie_advice',
@@ -108,18 +108,30 @@ def capturar_api_key_autonomo() -> str:
             page.on("request", interceptar)
             
             logger.info("Navegando a la página del mapa...")
-            page.goto(f"{ARIF_BASE_URL}/osservazioni/mappa-stazioni-meteo", timeout=60000)
+            response = page.goto(f"{ARIF_BASE_URL}/osservazioni/mappa-stazioni-meteo", timeout=60000)
             
-            # Esperar a que la red esté inactiva (lo que confirma descarga del JSON de estaciones)
-            logger.info("Esperando estabilización de red (networkidle)...")
+            logger.info(f"Respuesta HTTP recibida: {response.status if response else 'No response'}")
+            logger.info(f"Título de la página cargada: '{page.title()}'")
+            
+            # Forzar espera a que la red se estabilice
             try:
-                page.wait_for_load_state("networkidle", timeout=20000)
+                page.wait_for_load_state("networkidle", timeout=15000)
             except:
-                logger.warning("Excedido tiempo de espera de networkidle. Continuando con el selector de mapa...")
+                pass
             
-            # Esperar marcadores con timeout ampliado para servidores lentos (40 segundos)
+            # GUARDAR CAPTURA DE PANTALLA Y HTML DE DIAGNÓSTICO EN CASO DE BLOQUEO
+            screenshot_path = LOGS_DIR / "debug_github.png"
+            html_path = LOGS_DIR / "debug_github.html"
+            
+            page.screenshot(path=str(screenshot_path))
+            html_path.write_text(page.content(), encoding='utf-8')
+            
+            logger.info(f"[DEBUG] Captura guardada en: {screenshot_path}")
+            logger.info(f"[DEBUG] Código HTML guardado en: {html_path}")
+            
+            # Esperar marcadores
             logger.info("Esperando que aparezcan los marcadores en el mapa...")
-            page.wait_for_selector(".leaflet-marker-icon", timeout=40000)
+            page.wait_for_selector(".leaflet-marker-icon", timeout=30000)
             
             # Hacer clic en un marcador
             logger.info("Marcadores detectados. Realizando clic en el primer elemento...")
@@ -132,8 +144,6 @@ def capturar_api_key_autonomo() -> str:
                 logger.info("Haciendo clic en el enlace 'Dettagli' del popup...")
                 enlaces_detalles.first.click(force=True)
                 page.wait_for_timeout(5000)
-            else:
-                logger.warning("No se localizó el enlace 'Dettagli' en el popup emergente.")
                 
             browser.close()
         except Exception as e:
@@ -168,7 +178,7 @@ def download_variable(session: requests.Session, api_key: str, api_code: str, fa
             logger.warning(f"  Vacío")
             return []
         
-        logger.info(f"  ✓ {len(data)} registros")
+        logger.info(f"  ✓ {len(data)} registros obtenidos")
         
         records = []
         
