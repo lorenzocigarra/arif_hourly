@@ -2,7 +2,7 @@ name: ARIF Spatial Data Collection
 
 on:
   schedule:
-    - cron: '5 * * * *'  # Una vez por hora
+    - cron: '5 * * * *'  # Una vez por hora (Minutos :05)
   workflow_dispatch:
 
 jobs:
@@ -10,7 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-    - uses: actions/checkout@v3
+    - name: Checkout repository
+      uses: actions/checkout@v3
       with:
         fetch-depth: 0
     
@@ -20,7 +21,9 @@ jobs:
         python-version: '3.10'
     
     - name: Install dependencies
-      run: pip install pandas requests
+      run: |
+        pip install pandas requests playwright beautifulsoup4
+        playwright install chromium
     
     - name: Run spatial collector
       run: python arif_spatial_collector.py
