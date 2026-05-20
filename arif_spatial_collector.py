@@ -77,6 +77,23 @@ def capturar_api_key_autonomo() -> str:
             context = browser.new_context(
                 user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
             )
+            
+            # INYECTAR COOKIE DE CONSENTIMIENTO ANTES DE NAVEGAR
+            context.add_cookies([
+                {
+                    'name': 'nibirumail_cookie_advice',
+                    'value': '1',
+                    'domain': 'www.agrometeopuglia.it',
+                    'path': '/'
+                },
+                {
+                    'name': 'nibirumail_cookie_advice',
+                    'value': '1',
+                    'domain': 'agrometeopuglia.it',
+                    'path': '/'
+                }
+            ])
+            
             page = context.new_page()
             
             # Interceptor de red
@@ -90,18 +107,33 @@ def capturar_api_key_autonomo() -> str:
             
             page.on("request", interceptar)
             
-            page.goto(f"{ARIF_BASE_URL}/osservazioni/mappa-stazioni-meteo", timeout=45000)
-            page.wait_for_selector(".leaflet-marker-icon", timeout=20000)
+            logger.info("Navegando a la página del mapa...")
+            page.goto(f"{ARIF_BASE_URL}/osservazioni/mappa-stazioni-meteo", timeout=60000)
+            
+            # Esperar a que la red esté inactiva (lo que confirma descarga del JSON de estaciones)
+            logger.info("Esperando estabilización de red (networkidle)...")
+            try:
+                page.wait_for_load_state("networkidle", timeout=20000)
+            except:
+                logger.warning("Excedido tiempo de espera de networkidle. Continuando con el selector de mapa...")
+            
+            # Esperar marcadores con timeout ampliado para servidores lentos (40 segundos)
+            logger.info("Esperando que aparezcan los marcadores en el mapa...")
+            page.wait_for_selector(".leaflet-marker-icon", timeout=40000)
             
             # Hacer clic en un marcador
+            logger.info("Marcadores detectados. Realizando clic en el primer elemento...")
             page.locator(".leaflet-marker-icon").first.click(force=True)
-            page.wait_for_timeout(2000)
+            page.wait_for_timeout(3000)
             
             # Hacer clic en Dettagli
             enlaces_detalles = page.locator("a:has-text('Dettagli'), a:has-text('dettagli')")
             if enlaces_detalles.count() > 0:
+                logger.info("Haciendo clic en el enlace 'Dettagli' del popup...")
                 enlaces_detalles.first.click(force=True)
-                page.wait_for_timeout(4000)
+                page.wait_for_timeout(5000)
+            else:
+                logger.warning("No se localizó el enlace 'Dettagli' en el popup emergente.")
                 
             browser.close()
         except Exception as e:
@@ -136,7 +168,7 @@ def download_variable(session: requests.Session, api_key: str, api_code: str, fa
             logger.warning(f"  Vacío")
             return []
         
-        logger.info(f"  ✓ {len(data)} registros obtenidos")
+        logger.info(f"  ✓ {len(data)} registros")
         
         records = []
         
@@ -198,7 +230,6 @@ def collect_all_data():
     logger.info("INICIO RECOLECCIÓN ARIF SPATIAL")
     logger.info("="*70)
     
-    # 1. Obtener clave dinámica de sesión
     api_key = capturar_api_key_autonomo()
     if not api_key:
         logger.error("No se pudo obtener una API Key válida. Cancelando ejecución.")
@@ -206,7 +237,6 @@ def collect_all_data():
         
     logger.info(f"API Key activa establecida para descargas directas: {api_key[:15]}...")
     
-    # 2. Inicializar cliente HTTP con credenciales
     session = requests.Session()
     session.headers.update({
         "Accept": "application/json, text/javascript, */*; q=0.01",
@@ -218,7 +248,6 @@ def collect_all_data():
     for dom in ["www.agrometeopuglia.it", "agrometeopuglia.it", ".agrometeopuglia.it"]:
         session.cookies.set('nibirumail_cookie_advice', '1', domain=dom, path='/')
     
-    # 3. Descargar cada variable
     all_records = []
     for api_code, fallback_name in VARIABLES.items():
         records = download_variable(session, api_key, api_code, fallback_name)
@@ -232,7 +261,6 @@ def collect_all_data():
     df_new = pd.DataFrame(all_records)
     logger.info(f"Nuevos registros obtenidos en esta corrida: {len(df_new)}")
     
-    # 4. Consolidar con el historial existente
     if SPATIAL_CSV.exists():
         try:
             df_prev = pd.read_csv(SPATIAL_CSV)
