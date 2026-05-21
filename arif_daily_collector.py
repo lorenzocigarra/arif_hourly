@@ -6,7 +6,9 @@ import requests
 from datetime import datetime, timedelta
 import time
 import logging
-import re
+import base64
+import json
+from bs4 import BeautifulSoup
 
 # ============================================================================
 # CONFIGURACIÓN
@@ -53,111 +55,37 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # ============================================================================
-# CAPTURA DE API KEY (PLAYWRIGHT MEDIANTE SONDEO ACTIVO)
+# EXTRACCIÓN ESTÁTICA ULTRA-RÁPIDA (SIN PLAYWRIGHT)
 # ============================================================================
 
-def capturar_api_key_autonomo() -> str:
-    """Inicia un navegador headless, emula clics e intercepta la API Key activa"""
-    logger.info("Iniciando navegador Playwright para capturar clave...")
-    from playwright.sync_api import sync_playwright
-    api_key_capturada = None
+def extraer_api_key_estatico(session: requests.Session) -> str:
+    """Descarga el HTML base y decodifica la clave de sesión inyectada por el servidor"""
+    logger.info("Extrayendo API Key desde metadatos HTML...")
+    url_mapa = f"{ARIF_BASE_URL}/osservazioni/mappa-stazioni-meteo"
     
-    with sync_playwright() as p:
-        try:
-            browser = p.chromium.launch(headless=True)
-            context = browser.new_context(
-                user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
-            )
+    try:
+        response = session.get(url_mapa, timeout=30)
+        response.raise_for_status()
+        
+        soup = BeautifulSoup(response.text, 'html.parser')
+        # Buscar la etiqueta script que contiene las configuraciones de Drupal
+        script_tag = soup.find('script', {'data-drupal-selector': 'drupal-settings-json'})
+        
+        if script_tag and script_tag.string:
+            settings = json.loads(script_tag.string)
+            b64_key = settings.get('key')
             
-            # Inyectar cookies de consentimiento
-            context.add_cookies([
-                {
-                    'name': 'nibirumail_cookie_advice',
-                    'value': '1',
-                    'domain': 'www.agrometeopuglia.it',
-                    'path': '/'
-                },
-                {
-                    'name': 'nibirumail_cookie_advice',
-                    'value': '1',
-                    'domain': 'agrometeopuglia.it',
-                    'path': '/'
-                }
-            ])
-            
-            page = context.new_page()
-            
-            # Interceptor de red
-            def interceptar(request):
-                nonlocal api_key_capturada
-                url = request.url
-                if "api=" in url:
-                    match = re.search(r'api=([a-f0-9]{90,110})', url, re.IGNORECASE)
-                    if match and not api_key_capturada:
-                        api_key_capturada = match.group(1)
-            
-            page.on("request", interceptar)
-            
-            logger.info("Navegando a la página del mapa...")
-            response = page.goto(f"{ARIF_BASE_URL}/osservazioni/mappa-stazioni-meteo", timeout=60000)
-            
-            logger.info(f"Respuesta HTTP recibida: {response.status if response else 'No response'}")
-            logger.info(f"Título de la página cargada: '{page.title()}'")
-            
-            # Guardar capturas de pantalla de depuración por si ocurre un fallo posterior
-            screenshot_path = LOGS_DIR / "debug_github_daily.png"
-            html_path = LOGS_DIR / "debug_github_daily.html"
-            
-            page.screenshot(path=str(screenshot_path))
-            html_path.write_text(page.content(), encoding='utf-8')
-            
-            logger.info(f"[DEBUG] Captura guardada en: {screenshot_path}")
-            logger.info(f"[DEBUG] Código HTML guardado en: {html_path}")
-            
-            # SONDEO ACTIVO: Reemplaza wait_for_selector para evitar bloqueos del motor de Playwright
-            logger.info("Esperando que aparezcan los marcadores del mapa (Sondeo Activo)...")
-            marcadores_detectados = False
-            
-            for intento in range(1, 41): # 40 segundos máximo de espera (1s por intento)
-                conteo = page.locator(".leaflet-marker-icon").count()
-                if conteo > 0:
-                    logger.info(f"✓ Marcadores detectados en el DOM en el intento {intento} ({conteo} elementos).")
-                    marcadores_detectados = True
-                    break
-                page.wait_for_timeout(1000)
-            
-            if not marcadores_detectados:
-                logger.error("❌ Excedido el tiempo de espera. No se localizaron marcadores en el DOM.")
-                browser.close()
-                return None
-            
-            # Hacer clic forzado en un marcador
-            logger.info("Realizando clic forzado en el primer marcador de estación...")
-            page.locator(".leaflet-marker-icon").first.click(force=True)
-            page.wait_for_timeout(3000)
-            
-            # Hacer clic en Dettagli usando sondeo activo
-            logger.info("Esperando que aparezca el enlace 'Dettagli'...")
-            enlace_detalles = page.locator("a:has-text('Dettagli'), a:has-text('dettagli')")
-            enlace_detectado = False
-            
-            for intento_det in range(1, 11): # 10 segundos de espera máximo
-                if enlace_detalles.count() > 0:
-                    logger.info("Haciendo clic en el enlace 'Dettagli' del popup emergente...")
-                    enlace_detalles.first.click(force=True)
-                    page.wait_for_timeout(5000)
-                    enlace_detectado = True
-                    break
-                page.wait_for_timeout(1000)
+            if b64_key:
+                # Decodificar el Base64 para obtener la API Key de 96 caracteres
+                api_key = base64.b64decode(b64_key).decode('utf-8')
+                logger.info("✓ API Key extraída y decodificada exitosamente.")
+                return api_key
                 
-            if not enlace_detectado:
-                logger.warning("⚠️ No se localizó el enlace 'Dettagli' en el popup emergente.")
-                
-            browser.close()
-        except Exception as e:
-            logger.error(f"Fallo en la navegación de Playwright: {e}")
-            
-    return api_key_capturada
+        logger.error("No se localizó la clave dentro de las configuraciones de la página.")
+        return None
+    except Exception as e:
+        logger.error(f"Error extrayendo la clave estática: {e}")
+        return None
 
 # ============================================================================
 # DESCARGA DE DATOS DIARIOS
@@ -259,15 +187,7 @@ def collect_daily_data():
         except Exception as e:
             logger.warning(f"Error procesando CSV previo: {e}")
             
-    # 2. Obtener clave activa dinámica
-    api_key = capturar_api_key_autonomo()
-    if not api_key:
-        logger.error("No se pudo obtener una API Key válida. Cancelando ejecución.")
-        sys.exit(1)
-        
-    logger.info(f"API Key activa establecida para descargas directas: {api_key[:15]}...")
-    
-    # 3. Inicializar sesión de solicitudes con cookies
+    # 2. Inicializar sesión de solicitudes con cookies
     session = requests.Session()
     session.headers.update({
         "Accept": "application/json, text/javascript, */*; q=0.01",
@@ -278,6 +198,14 @@ def collect_daily_data():
     })
     for dom in ["www.agrometeopuglia.it", "agrometeopuglia.it", ".agrometeopuglia.it"]:
         session.cookies.set('nibirumail_cookie_advice', '1', domain=dom, path='/')
+    
+    # 3. Obtener clave activa estática
+    api_key = extraer_api_key_estatico(session)
+    if not api_key:
+        logger.error("No se pudo obtener una API Key válida. Cancelando ejecución.")
+        sys.exit(1)
+        
+    logger.info(f"API Key activa establecida para descargas directas: {api_key[:15]}...")
     
     # 4. Descargar cada variable para la fecha de ayer
     all_records = []
@@ -291,6 +219,7 @@ def collect_daily_data():
         sys.exit(1)
         
     df_new = pd.DataFrame(all_records)
+    # Filtrar rigurosamente registros que coincidan con la fecha de ayer
     df_new = df_new[df_new['date'] == fecha_ayer_str]
     
     logger.info(f"Nuevos registros válidos obtenidos de ayer: {len(df_new)}")
