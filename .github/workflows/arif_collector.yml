@@ -37,6 +37,14 @@ jobs:
         git push
       continue-on-error: true
 
+    - name: Upload debug screenshot on failure
+      if: failure()
+      uses: actions/upload-artifact@v3
+      with:
+        name: debug-screenshots
+        path: logs/*.png
+
+    
     - name: Upload debug artifacts on failure
       if: failure()
       uses: actions/upload-artifact@v3
