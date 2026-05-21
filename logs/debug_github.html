@@ -1,0 +1,1017 @@
+<!DOCTYPE html><html lang="it" dir="ltr" prefix="content: http://purl.org/rss/1.0/modules/content/  dc: http://purl.org/dc/terms/  foaf: http://xmlns.com/foaf/0.1/  og: http://ogp.me/ns#  rdfs: http://www.w3.org/2000/01/rdf-schema#  schema: http://schema.org/  sioc: http://rdfs.org/sioc/ns#  sioct: http://rdfs.org/sioc/types#  skos: http://www.w3.org/2004/02/skos/core#  xsd: http://www.w3.org/2001/XMLSchema# " class=" js"><head>
+    <meta charset="utf-8">
+<script type="text/javascript" async="" src="https://www.google-analytics.com/plugins/ua/linkid.js"></script><script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script><script type="text/javascript" async="" src="https://www.googletagmanager.com/gtag/js?id=G-V9CZRG0ZGR&amp;cx=c&amp;gtm=4e65j1"></script><script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-98530151-1"></script>
+<script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments)};gtag("js", new Date());gtag("config", "UA-98530151-1", {"groups":"default","linker":{"domains":["www.agrometeopuglia.it,www.agrometeopuglia.it\/api,http:\/\/www.agrometeopuglia.it\/bollettino-elettronico"]},"anonymize_ip":true,"page_path":location.pathname + location.search + location.hash,"link_attribution":true,"allow_ad_personalization_signals":false});</script>
+<meta name="Generator" content="Drupal 8 (https://www.drupal.org)">
+<meta name="MobileOptimized" content="width">
+<meta name="HandheldFriendly" content="true">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="shortcut icon" href="/sites/default/files/favicon_0.ico" type="image/vnd.microsoft.icon">
+
+    <title>Mappa Stazioni Meteo | Agrometeopuglia - ARIF PUGLIA</title>
+    <link rel="stylesheet" media="all" href="/core/themes/stable/css/system/components/ajax-progress.module.css?td5mus">
+<link rel="stylesheet" media="all" href="/core/themes/stable/css/system/components/align.module.css?td5mus">
+<link rel="stylesheet" media="all" href="/core/themes/stable/css/system/components/autocomplete-loading.module.css?td5mus">
+<link rel="stylesheet" media="all" href="/core/themes/stable/css/system/components/fieldgroup.module.css?td5mus">
+<link rel="stylesheet" media="all" href="/core/themes/stable/css/system/components/container-inline.module.css?td5mus">
+<link rel="stylesheet" media="all" href="/core/themes/stable/css/system/components/clearfix.module.css?td5mus">
+<link rel="stylesheet" media="all" href="/core/themes/stable/css/system/components/details.module.css?td5mus">
+<link rel="stylesheet" media="all" href="/core/themes/stable/css/system/components/hidden.module.css?td5mus">
+<link rel="stylesheet" media="all" href="/core/themes/stable/css/system/components/item-list.module.css?td5mus">
+<link rel="stylesheet" media="all" href="/core/themes/stable/css/system/components/js.module.css?td5mus">
+<link rel="stylesheet" media="all" href="/core/themes/stable/css/system/components/nowrap.module.css?td5mus">
+<link rel="stylesheet" media="all" href="/core/themes/stable/css/system/components/position-container.module.css?td5mus">
+<link rel="stylesheet" media="all" href="/core/themes/stable/css/system/components/progress.module.css?td5mus">
+<link rel="stylesheet" media="all" href="/core/themes/stable/css/system/components/reset-appearance.module.css?td5mus">
+<link rel="stylesheet" media="all" href="/core/themes/stable/css/system/components/resize.module.css?td5mus">
+<link rel="stylesheet" media="all" href="/core/themes/stable/css/system/components/sticky-header.module.css?td5mus">
+<link rel="stylesheet" media="all" href="/core/themes/stable/css/system/components/system-status-counter.css?td5mus">
+<link rel="stylesheet" media="all" href="/core/themes/stable/css/system/components/system-status-report-counters.css?td5mus">
+<link rel="stylesheet" media="all" href="/core/themes/stable/css/system/components/system-status-report-general-info.css?td5mus">
+<link rel="stylesheet" media="all" href="/core/themes/stable/css/system/components/tabledrag.module.css?td5mus">
+<link rel="stylesheet" media="all" href="/core/themes/stable/css/system/components/tablesort.module.css?td5mus">
+<link rel="stylesheet" media="all" href="/core/themes/stable/css/system/components/tree-child.module.css?td5mus">
+<link rel="stylesheet" media="all" href="/modules/custom/MappaStazioniMeteo/../utility/css/stazione.css?td5mus">
+<link rel="stylesheet" media="all" href="/modules/custom/MappaStazioniMeteo/../utility/leaflet/css/leaflet.css?td5mus">
+<link rel="stylesheet" media="all" href="/modules/custom/MappaStazioniMeteo/../utility/leaflet/css/leaflet-measure.css?td5mus">
+<link rel="stylesheet" media="all" href="/modules/custom/MappaStazioniMeteo/../utility/leaflet/css/leaflet-search.min.css?td5mus">
+<link rel="stylesheet" media="all" href="/modules/custom/MappaStazioniMeteo/../utility/leaflet/css/leaflet.draw.css?td5mus">
+<link rel="stylesheet" media="all" href="/modules/custom/MappaStazioniMeteo/../utility/leaflet/css/leaflet-legend.css?td5mus">
+<link rel="stylesheet" media="all" href="/modules/custom/MappaStazioniMeteo/../utility/leaflet/css/easy-button.css?td5mus">
+<link rel="stylesheet" media="all" href="/modules/custom/MappaStazioniMeteo/../utility/leaflet/css/leaflet.zoomhome.css?td5mus">
+<link rel="stylesheet" media="all" href="/themes/drupal8_zymphonies_theme/includes/bootstrap/css/bootstrap.min.css?td5mus">
+<link rel="stylesheet" media="all" href="/themes/drupal8_zymphonies_theme/css/sm-core-css.css?td5mus">
+<link rel="stylesheet" media="all" href="/themes/drupal8_zymphonies_theme/css/base.css?td5mus">
+<link rel="stylesheet" media="all" href="/themes/drupal8_zymphonies_theme/css/font-awesome.css?td5mus">
+<link rel="stylesheet" media="all" href="/themes/drupal8_zymphonies_theme/css/custom-style.css?td5mus">
+<link rel="stylesheet" media="all" href="/themes/drupal8_zymphonies_theme/css/custom-media.css?td5mus">
+
+    
+<!--[if lte IE 8]>
+<script src="/core/assets/vendor/html5shiv/html5shiv.min.js?v=3.7.3"></script>
+<![endif]-->
+<script src="/core/assets/vendor/jquery/jquery.min.js?v=3.5.1"></script>
+<script src="/modules/custom/MappaStazioniMeteo/../utility/js/infoStazione.js?v=1"></script>
+<script src="/modules/custom/MappaStazioniMeteo/../utility/bootbox.min.js?v=1"></script>
+<script src="/modules/custom/MappaStazioniMeteo/../utility/json2html/json2Table.js?v=1"></script>
+<script src="/modules/custom/MappaStazioniMeteo/../utility/leaflet/js/leaflet.js?v=1"></script>
+<script src="/modules/custom/MappaStazioniMeteo/../utility/leaflet/js/leaflet-measure.min.js?v=1"></script>
+<script src="/modules/custom/MappaStazioniMeteo/../utility/leaflet/js/leaflet.ajax.min.js?v=1"></script>
+<script src="/modules/custom/MappaStazioniMeteo/../utility/leaflet/js/leaflet-search.min.js?v=1"></script>
+<script src="/modules/custom/MappaStazioniMeteo/../utility/leaflet/js/leaflet.draw.js?v=1"></script>
+<script src="/modules/custom/MappaStazioniMeteo/../utility/leaflet/js/leaflet-legend.js?v=1"></script>
+<script src="/modules/custom/MappaStazioniMeteo/../utility/leaflet/js/easy-button.js?v=1"></script>
+<script src="/modules/custom/MappaStazioniMeteo/../utility/leaflet/js/leaflet.zoomhome.min.js?v=1"></script>
+<script src="/modules/custom/MappaStazioniMeteo/../utility/flot/jquery.flot.js?v=1"></script>
+<script src="/modules/custom/MappaStazioniMeteo/../utility/flot/jquery.flot.categories.js?v=1"></script>
+<script src="/modules/custom/MappaStazioniMeteo/../utility/flot/jquery.flot.stack.js?v=1"></script>
+<script src="/modules/custom/MappaStazioniMeteo/../utility/flot/jquery.flot.orderBars.js?v=1"></script>
+<script src="/modules/custom/MappaStazioniMeteo/../utility/flot/jquery.flot.time.min.js?v=1"></script>
+<script src="/modules/custom/MappaStazioniMeteo/../utility/flot/jquery.flot.tooltip.js?v=1"></script>
+<script src="/modules/custom/MappaStazioniMeteo/../utility/flot/jquery.flot.tickrotor.js?v=1"></script>
+<script src="/modules/custom/MappaStazioniMeteo/../utility/readMore/jquery.readmore.js?v=1"></script>
+
+  </head>
+  <body class="path-osservazioni">
+    <a href="#main-content" class="visually-hidden focusable skip-link">
+      Salta al contenuto principale
+    </a>
+    
+    
+
+<!-- THEME DEBUG -->
+<!-- THEME HOOK: 'off_canvas_page_wrapper' -->
+<!-- BEGIN OUTPUT from 'core/themes/stable/templates/content/off-canvas-page-wrapper.html.twig' -->
+  <div class="dialog-off-canvas-main-canvas" data-off-canvas-main-canvas="">
+    
+
+<!-- THEME DEBUG -->
+<!-- THEME HOOK: 'page' -->
+<!-- FILE NAME SUGGESTIONS:
+   * page--osservazioni--mappa-stazioni-meteo.html.twig
+   * page--osservazioni.html.twig
+   x page.html.twig
+-->
+<!-- BEGIN OUTPUT from 'themes/drupal8_zymphonies_theme/templates/layout/page.html.twig' -->
+
+<style>
+ol, ul {
+
+    margin-top: 0;
+    margin-bottom: 10px;
+
+}
+
+ul.social-icons {
+
+    list-style: none;
+    padding: 0;
+    margin: -5px;
+    display: inline-block;
+
+}
+.social-icons {
+
+    padding: 10px !important;
+    clear: both;
+
+}
+
+.blinkingLink {
+  font-weight: bold;
+}
+
+</style>
+
+<!-- Header and Navbar -->
+<header class="main-header">
+  <nav class="navbar navbar-default" role="navigation">
+    <div class="container">
+      <div class="row">
+      <div class="navbar-header col-md-3">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navigation">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+                  
+
+<!-- THEME DEBUG -->
+<!-- THEME HOOK: 'region' -->
+<!-- FILE NAME SUGGESTIONS:
+   * region--header.html.twig
+   x region.html.twig
+-->
+<!-- BEGIN OUTPUT from 'themes/drupal8_zymphonies_theme/templates/layout/region.html.twig' -->
+  <div class="region region-header">
+    
+
+<!-- THEME DEBUG -->
+<!-- THEME HOOK: 'block' -->
+<!-- FILE NAME SUGGESTIONS:
+   * block--drupal8-zymphonies-theme-branding.html.twig
+   x block--system-branding-block.html.twig
+   * block--system.html.twig
+   * block.html.twig
+-->
+<!-- BEGIN OUTPUT from 'themes/drupal8_zymphonies_theme/templates/block/block--system-branding-block.html.twig' -->
+<div id="block-drupal8-zymphonies-theme-branding" class="site-branding block block-system block-system-branding-block">
+  
+    
+        <div class="brand logo">
+      <a href="https://arifpuglia.it/" target="_NEW" title="Home" rel="home" class="site-branding__logo">
+        <img src="/sites/default/files/logo_arif_1_0.png" alt="Home">
+      </a>
+    </div>
+    </div>
+
+<!-- END OUTPUT from 'themes/drupal8_zymphonies_theme/templates/block/block--system-branding-block.html.twig' -->
+
+
+  </div>
+
+<!-- END OUTPUT from 'themes/drupal8_zymphonies_theme/templates/layout/region.html.twig' -->
+
+
+              </div>
+
+      <!-- Navigation -->
+      <div class="col-md-9">
+                  
+
+<!-- THEME DEBUG -->
+<!-- THEME HOOK: 'region' -->
+<!-- FILE NAME SUGGESTIONS:
+   * region--primary-menu.html.twig
+   x region.html.twig
+-->
+<!-- BEGIN OUTPUT from 'themes/drupal8_zymphonies_theme/templates/layout/region.html.twig' -->
+  <div class="region region-primary-menu">
+    
+
+<!-- THEME DEBUG -->
+<!-- THEME HOOK: 'block' -->
+<!-- FILE NAME SUGGESTIONS:
+   * block--drupal8-zymphonies-theme-main-menu.html.twig
+   * block--system-menu-block--main.html.twig
+   x block--system-menu-block.html.twig
+   * block--system.html.twig
+   * block.html.twig
+-->
+<!-- BEGIN OUTPUT from 'core/themes/stable/templates/block/block--system-menu-block.html.twig' -->
+<nav role="navigation" aria-labelledby="block-drupal8-zymphonies-theme-main-menu-menu" id="block-drupal8-zymphonies-theme-main-menu">
+            
+  <h2 class="visually-hidden" id="block-drupal8-zymphonies-theme-main-menu-menu">Main navigation</h2>
+  
+
+        
+
+<!-- THEME DEBUG -->
+<!-- THEME HOOK: 'menu__main' -->
+<!-- FILE NAME SUGGESTIONS:
+   x menu--main.html.twig
+   x menu--main.html.twig
+   * menu.html.twig
+-->
+<!-- BEGIN OUTPUT from 'themes/drupal8_zymphonies_theme/templates/navigation/menu--main.html.twig' -->
+
+              <ul class="sm menu-base-theme" id="main-menu" data-smartmenus-id="17793506926969307">
+                      <li>
+        <a href="/" data-drupal-link-system-path="&lt;front&gt;">Home</a>
+                  </li>
+                  <li>
+        <a href="" data-target="#" data-toggle="dropdown" class="has-submenu" id="sm-17793506926969307-1" aria-haspopup="true" aria-controls="sm-17793506926969307-2" aria-expanded="false"><span class="sub-arrow">+</span>Rete Agrometeo</a>
+                                  <ul id="sm-17793506926969307-2" role="group" aria-hidden="true" aria-labelledby="sm-17793506926969307-1" aria-expanded="false">
+                      <li>
+        <a href="/osservazioni/mappa-stazioni-meteo" title="Mappa Stazioni Meteo Rete Agrometeo" data-drupal-link-system-path="osservazioni/mappa-stazioni-meteo" class="is-active">Mappa stazioni agrometeo</a>
+                  </li>
+                  <li>
+        <a href="/osservazioni/mappa-dati-rilevati" data-drupal-link-system-path="osservazioni/mappa-dati-rilevati">Ultimi dati rilevati: mappa</a>
+                  </li>
+                  <li>
+        <a href="/osservazioni/mappe-dati-stazione" title="Mappe dati da stazione" data-drupal-link-system-path="osservazioni/mappe-dati-stazione">Dati da stazione: mappe</a>
+                  </li>
+        </ul>
+  
+            </li>
+                  <li>
+        <a href="" data-target="#" data-toggle="dropdown" class="has-submenu" id="sm-17793506926969307-3" aria-haspopup="true" aria-controls="sm-17793506926969307-4" aria-expanded="false"><span class="sub-arrow">+</span>Climatologia</a>
+                                  <ul id="sm-17793506926969307-4" role="group" aria-hidden="true" aria-labelledby="sm-17793506926969307-3" aria-expanded="false">
+                      <li>
+        <a href="/climatologia/mappe-dati-clima" data-drupal-link-system-path="climatologia/mappe-dati-clima">Clima 1951-2001: Mappe</a>
+                  </li>
+                  <li>
+        <a href="/climatologia/mappe-scarti-clima" data-drupal-link-system-path="climatologia/mappe-scarti-clima">Scarti climatici</a>
+                  </li>
+        </ul>
+  
+            </li>
+                  <li>
+        <a href="/bollettini" data-drupal-link-system-path="bollettini">Bollettini</a>
+                  </li>
+        </ul>
+  
+
+
+<!-- END OUTPUT from 'themes/drupal8_zymphonies_theme/templates/navigation/menu--main.html.twig' -->
+
+
+  </nav>
+
+<!-- END OUTPUT from 'core/themes/stable/templates/block/block--system-menu-block.html.twig' -->
+
+
+  </div>
+
+<!-- END OUTPUT from 'themes/drupal8_zymphonies_theme/templates/layout/region.html.twig' -->
+
+
+              
+      </div>
+
+      <!--End Navigation -->
+			
+      </div>
+      
+      <div class="row">
+      	<div class="col-md-10"></div>
+	      <!-- <div class="col-md-1">
+	        <a href="http://wwwold.agrometeopuglia.it/opencms/opencms/Agrometeo/registrazione" target="_blank" style="background:#0D7BA1; color:#FFFFFF; padding:8px; border-radius: 25px;" >Registrati</a>
+	      </div>-->
+				<div class="col-md-2" align="right">
+	        <a href="http://www.agrometeopuglia.it/areariservata/index.php" target="_blank" style="background:#0D7BA1; color:#FFFFFF; padding:8px; border-radius: 25px;">Area Riservata</a>
+	      </div>
+				<!-- <div class="col-md-2">
+	        <a href="http://wwwold.agrometeopuglia.it" target="_blank" style="background:#0D7BA1; color:#FFFFFF; padding:8px; border-radius: 25px;" title="Accedi alla precedente versione del portale">Portale precedente</a>
+				</div> -->
+      </div>
+			
+    </div>
+
+  </nav>
+
+  <!-- Banner -->
+    <!-- End Banner -->
+
+</header>
+<!--End Header & Navbar -->
+
+
+
+<!--Highlighted-->
+      <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          
+
+<!-- THEME DEBUG -->
+<!-- THEME HOOK: 'region' -->
+<!-- FILE NAME SUGGESTIONS:
+   * region--highlighted.html.twig
+   x region.html.twig
+-->
+<!-- BEGIN OUTPUT from 'themes/drupal8_zymphonies_theme/templates/layout/region.html.twig' -->
+  <div class="region region-highlighted">
+    
+
+<!-- THEME DEBUG -->
+<!-- THEME HOOK: 'block' -->
+<!-- FILE NAME SUGGESTIONS:
+   * block--drupal8-zymphonies-theme-messages.html.twig
+   x block--system-messages-block.html.twig
+   * block--system.html.twig
+   * block.html.twig
+-->
+<!-- BEGIN OUTPUT from 'core/themes/stable/templates/block/block--system-messages-block.html.twig' -->
+<div data-drupal-messages-fallback="" class="hidden"></div>
+
+<!-- END OUTPUT from 'core/themes/stable/templates/block/block--system-messages-block.html.twig' -->
+
+
+  </div>
+
+<!-- END OUTPUT from 'themes/drupal8_zymphonies_theme/templates/layout/region.html.twig' -->
+
+
+        </div>
+      </div>
+    </div>
+  <!--End Highlighted-->
+
+
+<!-- Start Top Widget -->
+<!--End Top Widget -->
+
+
+<!-- Page Title -->
+  <div id="page-title">
+    <div id="page-title-inner">
+      <!-- start: Container -->
+      <div class="container">
+        
+
+<!-- THEME DEBUG -->
+<!-- THEME HOOK: 'region' -->
+<!-- FILE NAME SUGGESTIONS:
+   * region--page-title.html.twig
+   x region.html.twig
+-->
+<!-- BEGIN OUTPUT from 'themes/drupal8_zymphonies_theme/templates/layout/region.html.twig' -->
+  <div class="region region-page-title">
+    
+
+<!-- THEME DEBUG -->
+<!-- THEME HOOK: 'block' -->
+<!-- FILE NAME SUGGESTIONS:
+   * block--pagetitle.html.twig
+   * block--page-title-block.html.twig
+   * block--core.html.twig
+   x block.html.twig
+-->
+<!-- BEGIN OUTPUT from 'themes/drupal8_zymphonies_theme/templates/block/block.html.twig' -->
+<div id="block-pagetitle" class="block block-core block-page-title-block">
+  
+    
+      
+
+<!-- THEME DEBUG -->
+<!-- THEME HOOK: 'page_title' -->
+<!-- BEGIN OUTPUT from 'core/themes/stable/templates/content/page-title.html.twig' -->
+
+  <h1>Mappa Stazioni Meteo</h1>
+
+
+<!-- END OUTPUT from 'core/themes/stable/templates/content/page-title.html.twig' -->
+
+
+  </div>
+
+<!-- END OUTPUT from 'themes/drupal8_zymphonies_theme/templates/block/block.html.twig' -->
+
+
+  </div>
+
+<!-- END OUTPUT from 'themes/drupal8_zymphonies_theme/templates/layout/region.html.twig' -->
+
+
+      </div>
+    </div>
+  </div>
+<!-- End Page Title ---- >
+
+
+<!-- layout -->
+<div id="wrapper">
+  <!-- start: Container -->
+  <div class="container">
+    
+    <!--Content top-->
+          <!--End Content top-->
+    
+    <!--start:content -->
+    <div class="row">
+      <div class="col-md-12"></div>
+    </div>
+
+		<!-- <div class="row">
+      <div class="col-md-12">
+	      <img src="/modules/custom/utility/icone/icona-info.png" align="left" style="margin:0 10px 0 0;">
+				<span class="text-info"><b>AVVISO INTERRUZIONE PROGRAMMATA DEL SERVIZIO AGROMETEOROLOGICO </b> </span>
+				<p>Al fine di consentire un intervento sui sistemi, si procederà all’interruzione del servizio Agrometeorologico dalle 18:00 di venerdì 19 alle 09:00 di lenedì 22 novembre p.v.</p>
+			</div>
+		</div> -->
+		
+		
+    <!-- Modified by: Angelo -->
+    
+
+
+    <div class="row layout">
+      <!--- Start Left SideBar -->
+            <!---End Right SideBar -->
+
+      <!--- Start content -->
+              <div class="content_layout">
+          <div class="col-md-12">
+            
+
+<!-- THEME DEBUG -->
+<!-- THEME HOOK: 'region' -->
+<!-- FILE NAME SUGGESTIONS:
+   * region--content.html.twig
+   x region.html.twig
+-->
+<!-- BEGIN OUTPUT from 'themes/drupal8_zymphonies_theme/templates/layout/region.html.twig' -->
+  <div class="region region-content">
+    
+
+<!-- THEME DEBUG -->
+<!-- THEME HOOK: 'block' -->
+<!-- FILE NAME SUGGESTIONS:
+   * block--drupal8-zymphonies-theme-content.html.twig
+   * block--system-main-block.html.twig
+   * block--system.html.twig
+   x block.html.twig
+-->
+<!-- BEGIN OUTPUT from 'themes/drupal8_zymphonies_theme/templates/block/block.html.twig' -->
+<div id="block-drupal8-zymphonies-theme-content" class="block block-system block-system-main-block">
+  
+    
+      
+
+<!-- THEME DEBUG -->
+<!-- THEME HOOK: 'MappaStazioniMeteo' -->
+<!-- BEGIN OUTPUT from 'modules/custom/MappaStazioniMeteo/templates/MappaStazioniMeteo.html.twig' -->
+
+
+<style>
+.margin-top-bottom {
+	margin:10px 0 10px 0;
+}
+
+.easy-button-button .button-state{
+  display: block;
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.leaflet-touch .leaflet-bar button {
+  width: 30px;
+  height: 30px;
+  line-height: 15px;
+  font-size:15px;
+}
+
+h2 {
+	color:#31708f;
+}
+h3 {
+	color:#31708f;
+	line-height:20px;
+}
+
+.flotTip {
+	z-index: 9999 !important;
+}
+
+.legend {background-color: #FFFFFF;}
+div#legend {padding: 0px 5px 5px 5px;}
+legend {font-size:14px;font-weight:bold}
+
+</style>
+
+
+
+<div class="contenitore">
+    <div class="intestazione">
+    	<img src="/modules/custom/utility/icone/icona-info.png" align="left" style="margin:0 10px 0 0;">
+    	<span class="text-info">Informazioni modulo</span>
+    	<br clear="all">
+    </div>
+    <div class="contenuto">
+		<p>
+		Sulla mappa, sono visualizzate le stazioni meteo presenti nella regione Puglia, selezionando una stazione, e cliccando su dettagli, saranno visualizzati i report della stazione selezionata.
+		Le stazioni si suddividono in Stazioni Fisse Rete Agrometeorologica Regione Puglia e Stazioni Mobili Rete Agrometeorologica Regione Puglia.
+		<br>
+		<font color="RED"> 
+		È possibile effettuare una ricerca per comuni, vie e località della Puglia, misurare la distanza tra due punti, disegnare un cerchio per visualizzare le distanze delle stazioni dal centro della circonferenza.
+		Quando si effettua una ricerca, verrà creata una circonferenza con centro nel luogo cercato e raggio specificato dal campo "Raggio circonferenza ricerca".
+		</font>
+		</p>
+    </div>
+</div>
+
+<br>
+
+<div>
+	Raggio circonferenza ricerca: <input type="text" id="radius" name="radius" value="10" size="1%" onkeypress="return event.charCode &gt;= 48 &amp;&amp; event.charCode &lt;= 57" style=""> Km 
+</div>
+
+<div id="map" style="width: 100%; height: 675px; position: relative;" class="leaflet-container leaflet-touch leaflet-fade-anim leaflet-grab leaflet-touch-drag leaflet-touch-zoom" tabindex="0"><div class="leaflet-pane leaflet-map-pane" style="transform: translate3d(0px, 0px, 0px);"><div class="leaflet-pane leaflet-tile-pane"><div class="leaflet-layer " style="z-index: 1; opacity: 1;"><div class="leaflet-tile-container leaflet-zoom-animated" style="z-index: 18; transform: translate3d(0px, 0px, 0px) scale(1);"><img alt="" src="https://a.tile.openstreetmap.org/8/139/95.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(304px, 72px, 0px); opacity: 1;"><img alt="" src="https://b.tile.openstreetmap.org/8/140/95.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(560px, 72px, 0px); opacity: 1;"><img alt="" src="https://b.tile.openstreetmap.org/8/139/96.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(304px, 328px, 0px); opacity: 1;"><img alt="" src="https://c.tile.openstreetmap.org/8/140/96.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(560px, 328px, 0px); opacity: 1;"><img alt="" src="https://c.tile.openstreetmap.org/8/139/94.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(304px, -184px, 0px); opacity: 1;"><img alt="" src="https://a.tile.openstreetmap.org/8/140/94.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(560px, -184px, 0px); opacity: 1;"><img alt="" src="https://c.tile.openstreetmap.org/8/138/95.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(48px, 72px, 0px); opacity: 1;"><img alt="" src="https://c.tile.openstreetmap.org/8/141/95.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(816px, 72px, 0px); opacity: 1;"><img alt="" src="https://a.tile.openstreetmap.org/8/138/96.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(48px, 328px, 0px); opacity: 1;"><img alt="" src="https://a.tile.openstreetmap.org/8/141/96.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(816px, 328px, 0px); opacity: 1;"><img alt="" src="https://c.tile.openstreetmap.org/8/139/97.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(304px, 584px, 0px); opacity: 1;"><img alt="" src="https://a.tile.openstreetmap.org/8/140/97.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(560px, 584px, 0px); opacity: 1;"><img alt="" src="https://b.tile.openstreetmap.org/8/138/94.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(48px, -184px, 0px); opacity: 1;"><img alt="" src="https://b.tile.openstreetmap.org/8/141/94.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(816px, -184px, 0px); opacity: 1;"><img alt="" src="https://b.tile.openstreetmap.org/8/138/97.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(48px, 584px, 0px); opacity: 1;"><img alt="" src="https://b.tile.openstreetmap.org/8/141/97.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(816px, 584px, 0px); opacity: 1;"><img alt="" src="https://b.tile.openstreetmap.org/8/137/95.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(-208px, 72px, 0px); opacity: 1;"><img alt="" src="https://a.tile.openstreetmap.org/8/142/95.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1072px, 72px, 0px); opacity: 1;"><img alt="" src="https://c.tile.openstreetmap.org/8/137/96.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(-208px, 328px, 0px); opacity: 1;"><img alt="" src="https://b.tile.openstreetmap.org/8/142/96.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1072px, 328px, 0px); opacity: 1;"><img alt="" src="https://a.tile.openstreetmap.org/8/137/94.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(-208px, -184px, 0px); opacity: 1;"><img alt="" src="https://c.tile.openstreetmap.org/8/142/94.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1072px, -184px, 0px); opacity: 1;"><img alt="" src="https://a.tile.openstreetmap.org/8/137/97.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(-208px, 584px, 0px); opacity: 1;"><img alt="" src="https://c.tile.openstreetmap.org/8/142/97.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1072px, 584px, 0px); opacity: 1;"></div></div></div><div class="leaflet-pane leaflet-shadow-pane"><img src="../../modules/custom/utility/leaflet/css/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -16.5px; margin-top: -16.5px; width: 33px; height: 33px; transform: translate3d(482px, 343px, 0px);"><img src="../../modules/custom/utility/leaflet/css/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -16.5px; margin-top: -16.5px; width: 33px; height: 33px; transform: translate3d(458px, 351px, 0px);"><img src="../../modules/custom/utility/leaflet/css/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -16.5px; margin-top: -16.5px; width: 33px; height: 33px; transform: translate3d(670px, 373px, 0px);"><img src="../../modules/custom/utility/leaflet/css/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -16.5px; margin-top: -16.5px; width: 33px; height: 33px; transform: translate3d(771px, 433px, 0px);"><img src="../../modules/custom/utility/leaflet/css/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -16.5px; margin-top: -16.5px; width: 33px; height: 33px; transform: translate3d(354px, 239px, 0px);"><img src="../../modules/custom/utility/leaflet/css/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -16.5px; margin-top: -16.5px; width: 33px; height: 33px; transform: translate3d(250px, 192px, 0px);"><img src="../../modules/custom/utility/leaflet/css/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -16.5px; margin-top: -16.5px; width: 33px; height: 33px; transform: translate3d(845px, 506px, 0px);"><img src="../../modules/custom/utility/leaflet/css/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -16.5px; margin-top: -16.5px; width: 33px; height: 33px; transform: translate3d(781px, 449px, 0px);"><img src="../../modules/custom/utility/leaflet/css/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -16.5px; margin-top: -16.5px; width: 33px; height: 33px; transform: translate3d(777px, 567px, 0px);"><img src="../../modules/custom/utility/leaflet/css/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -16.5px; margin-top: -16.5px; width: 33px; height: 33px; transform: translate3d(672px, 481px, 0px);"><img src="../../modules/custom/utility/leaflet/css/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -16.5px; margin-top: -16.5px; width: 33px; height: 33px; transform: translate3d(559px, 400px, 0px);"><img src="../../modules/custom/utility/leaflet/css/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -16.5px; margin-top: -16.5px; width: 33px; height: 33px; transform: translate3d(438px, 273px, 0px);"><img src="../../modules/custom/utility/leaflet/css/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -16.5px; margin-top: -16.5px; width: 33px; height: 33px; transform: translate3d(658px, 398px, 0px);"><img src="../../modules/custom/utility/leaflet/css/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -16.5px; margin-top: -16.5px; width: 33px; height: 33px; transform: translate3d(636px, 343px, 0px);"><img src="../../modules/custom/utility/leaflet/css/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -16.5px; margin-top: -16.5px; width: 33px; height: 33px; transform: translate3d(501px, 294px, 0px);"><img src="../../modules/custom/utility/leaflet/css/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -16.5px; margin-top: -16.5px; width: 33px; height: 33px; transform: translate3d(675px, 431px, 0px);"><img src="../../modules/custom/utility/leaflet/css/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -16.5px; margin-top: -16.5px; width: 33px; height: 33px; transform: translate3d(698px, 397px, 0px);"><img src="../../modules/custom/utility/leaflet/css/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -16.5px; margin-top: -16.5px; width: 33px; height: 33px; transform: translate3d(299px, 136px, 0px);"><img src="../../modules/custom/utility/leaflet/css/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -16.5px; margin-top: -16.5px; width: 33px; height: 33px; transform: translate3d(380px, 192px, 0px);"><img src="../../modules/custom/utility/leaflet/css/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -16.5px; margin-top: -16.5px; width: 33px; height: 33px; transform: translate3d(822px, 554px, 0px);"><img src="../../modules/custom/utility/leaflet/css/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -16.5px; margin-top: -16.5px; width: 33px; height: 33px; transform: translate3d(649px, 435px, 0px);"><img src="../../modules/custom/utility/leaflet/css/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -16.5px; margin-top: -16.5px; width: 33px; height: 33px; transform: translate3d(476px, 264px, 0px);"><img src="../../modules/custom/utility/leaflet/css/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -16.5px; margin-top: -16.5px; width: 33px; height: 33px; transform: translate3d(577px, 318px, 0px);"><img src="../../modules/custom/utility/leaflet/css/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -16.5px; margin-top: -16.5px; width: 33px; height: 33px; transform: translate3d(625px, 374px, 0px);"><img src="../../modules/custom/utility/leaflet/css/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -16.5px; margin-top: -16.5px; width: 33px; height: 33px; transform: translate3d(743px, 418px, 0px);"><img src="../../modules/custom/utility/leaflet/css/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -16.5px; margin-top: -16.5px; width: 33px; height: 33px; transform: translate3d(738px, 429px, 0px);"><img src="../../modules/custom/utility/leaflet/css/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -16.5px; margin-top: -16.5px; width: 33px; height: 33px; transform: translate3d(708px, 432px, 0px);"><img src="../../modules/custom/utility/leaflet/css/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -16.5px; margin-top: -16.5px; width: 33px; height: 33px; transform: translate3d(716px, 412px, 0px);"><img src="../../modules/custom/utility/leaflet/css/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -16.5px; margin-top: -16.5px; width: 33px; height: 33px; transform: translate3d(326px, 164px, 0px);"><img src="../../modules/custom/utility/leaflet/css/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -16.5px; margin-top: -16.5px; width: 33px; height: 33px; transform: translate3d(288px, 242px, 0px);"><img src="../../modules/custom/utility/leaflet/css/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -16.5px; margin-top: -16.5px; width: 33px; height: 33px; transform: translate3d(313px, 188px, 0px);"><img src="../../modules/custom/utility/leaflet/css/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -16.5px; margin-top: -16.5px; width: 33px; height: 33px; transform: translate3d(767px, 497px, 0px);"><img src="../../modules/custom/utility/leaflet/css/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -16.5px; margin-top: -16.5px; width: 33px; height: 33px; transform: translate3d(790px, 485px, 0px);"><img src="../../modules/custom/utility/leaflet/css/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -16.5px; margin-top: -16.5px; width: 33px; height: 33px; transform: translate3d(742px, 469px, 0px);"><img src="../../modules/custom/utility/leaflet/css/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -16.5px; margin-top: -16.5px; width: 33px; height: 33px; transform: translate3d(824px, 579px, 0px);"><img src="../../modules/custom/utility/leaflet/css/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -16.5px; margin-top: -16.5px; width: 33px; height: 33px; transform: translate3d(696px, 472px, 0px);"><img src="../../modules/custom/utility/leaflet/css/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -16.5px; margin-top: -16.5px; width: 33px; height: 33px; transform: translate3d(582px, 401px, 0px);"><img src="../../modules/custom/utility/leaflet/css/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -16.5px; margin-top: -16.5px; width: 33px; height: 33px; transform: translate3d(599px, 423px, 0px);"><img src="../../modules/custom/utility/leaflet/css/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -16.5px; margin-top: -16.5px; width: 33px; height: 33px; transform: translate3d(561px, 445px, 0px);"><img src="../../modules/custom/utility/leaflet/css/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -16.5px; margin-top: -16.5px; width: 33px; height: 33px; transform: translate3d(550px, 295px, 0px);"><img src="../../modules/custom/utility/leaflet/css/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -16.5px; margin-top: -16.5px; width: 33px; height: 33px; transform: translate3d(645px, 382px, 0px);"><img src="../../modules/custom/utility/leaflet/css/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -16.5px; margin-top: -16.5px; width: 33px; height: 33px; transform: translate3d(605px, 328px, 0px);"><img src="../../modules/custom/utility/leaflet/css/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -16.5px; margin-top: -16.5px; width: 33px; height: 33px; transform: translate3d(504px, 333px, 0px);"><img src="../../modules/custom/utility/leaflet/css/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -16.5px; margin-top: -16.5px; width: 33px; height: 33px; transform: translate3d(715px, 453px, 0px);"><img src="../../modules/custom/utility/leaflet/css/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -16.5px; margin-top: -16.5px; width: 33px; height: 33px; transform: translate3d(267px, 117px, 0px);"><img src="../../modules/custom/utility/leaflet/css/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -16.5px; margin-top: -16.5px; width: 33px; height: 33px; transform: translate3d(216px, 181px, 0px);"><img src="../../modules/custom/utility/leaflet/css/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -16.5px; margin-top: -16.5px; width: 33px; height: 33px; transform: translate3d(302px, 287px, 0px);"><img src="../../modules/custom/utility/leaflet/css/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -16.5px; margin-top: -16.5px; width: 33px; height: 33px; transform: translate3d(554px, 430px, 0px);"><img src="../../modules/custom/utility/leaflet/css/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -16.5px; margin-top: -16.5px; width: 33px; height: 33px; transform: translate3d(578px, 425px, 0px);"><img src="../../modules/custom/utility/leaflet/css/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -16.5px; margin-top: -16.5px; width: 33px; height: 33px; transform: translate3d(841px, 540px, 0px);"><img src="../../modules/custom/utility/leaflet/css/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -16.5px; margin-top: -16.5px; width: 33px; height: 33px; transform: translate3d(761px, 522px, 0px);"><img src="../../modules/custom/utility/leaflet/css/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -16.5px; margin-top: -16.5px; width: 33px; height: 33px; transform: translate3d(410px, 270px, 0px);"><img src="../../modules/custom/utility/leaflet/css/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -16.5px; margin-top: -16.5px; width: 33px; height: 33px; transform: translate3d(435px, 291px, 0px);"><img src="../../modules/custom/utility/leaflet/css/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -16.5px; margin-top: -16.5px; width: 33px; height: 33px; transform: translate3d(508px, 370px, 0px);"><img src="../../modules/custom/utility/leaflet/css/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -16.5px; margin-top: -16.5px; width: 33px; height: 33px; transform: translate3d(451px, 338px, 0px);"><img src="../../modules/custom/utility/leaflet/css/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -16.5px; margin-top: -16.5px; width: 33px; height: 33px; transform: translate3d(544px, 343px, 0px);"><img src="../../modules/custom/utility/leaflet/css/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -16.5px; margin-top: -16.5px; width: 33px; height: 33px; transform: translate3d(542px, 375px, 0px);"><img src="../../modules/custom/utility/leaflet/css/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -16.5px; margin-top: -16.5px; width: 33px; height: 33px; transform: translate3d(566px, 317px, 0px);"><img src="../../modules/custom/utility/leaflet/css/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -16.5px; margin-top: -16.5px; width: 33px; height: 33px; transform: translate3d(573px, 342px, 0px);"><img src="../../modules/custom/utility/leaflet/css/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -16.5px; margin-top: -16.5px; width: 33px; height: 33px; transform: translate3d(602px, 392px, 0px);"><img src="../../modules/custom/utility/leaflet/css/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -16.5px; margin-top: -16.5px; width: 33px; height: 33px; transform: translate3d(613px, 368px, 0px);"><img src="../../modules/custom/utility/leaflet/css/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -16.5px; margin-top: -16.5px; width: 33px; height: 33px; transform: translate3d(649px, 357px, 0px);"><img src="../../modules/custom/utility/leaflet/css/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -16.5px; margin-top: -16.5px; width: 33px; height: 33px; transform: translate3d(673px, 414px, 0px);"><img src="../../modules/custom/utility/leaflet/css/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -16.5px; margin-top: -16.5px; width: 33px; height: 33px; transform: translate3d(285px, 209px, 0px);"><img src="../../modules/custom/utility/leaflet/css/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -16.5px; margin-top: -16.5px; width: 33px; height: 33px; transform: translate3d(270px, 239px, 0px);"><img src="../../modules/custom/utility/leaflet/css/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -16.5px; margin-top: -16.5px; width: 33px; height: 33px; transform: translate3d(358px, 225px, 0px);"><img src="../../modules/custom/utility/leaflet/css/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -16.5px; margin-top: -16.5px; width: 33px; height: 33px; transform: translate3d(373px, 228px, 0px);"><img src="../../modules/custom/utility/leaflet/css/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -16.5px; margin-top: -16.5px; width: 33px; height: 33px; transform: translate3d(388px, 209px, 0px);"><img src="../../modules/custom/utility/leaflet/css/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -16.5px; margin-top: -16.5px; width: 33px; height: 33px; transform: translate3d(388px, 276px, 0px);"><img src="../../modules/custom/utility/leaflet/css/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -16.5px; margin-top: -16.5px; width: 33px; height: 33px; transform: translate3d(329px, 221px, 0px);"><img src="../../modules/custom/utility/leaflet/css/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -16.5px; margin-top: -16.5px; width: 33px; height: 33px; transform: translate3d(375px, 121px, 0px);"><img src="../../modules/custom/utility/leaflet/css/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -16.5px; margin-top: -16.5px; width: 33px; height: 33px; transform: translate3d(347px, 165px, 0px);"><img src="../../modules/custom/utility/leaflet/css/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -16.5px; margin-top: -16.5px; width: 33px; height: 33px; transform: translate3d(246px, 150px, 0px);"><img src="../../modules/custom/utility/leaflet/css/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -16.5px; margin-top: -16.5px; width: 33px; height: 33px; transform: translate3d(254px, 211px, 0px);"><img src="../../modules/custom/utility/leaflet/css/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -16.5px; margin-top: -16.5px; width: 33px; height: 33px; transform: translate3d(339px, 289px, 0px);"><img src="../../modules/custom/utility/leaflet/css/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -16.5px; margin-top: -16.5px; width: 33px; height: 33px; transform: translate3d(378px, 99px, 0px);"><img src="../../modules/custom/utility/leaflet/css/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -16.5px; margin-top: -16.5px; width: 33px; height: 33px; transform: translate3d(292px, 173px, 0px);"><img src="../../modules/custom/utility/leaflet/css/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -16.5px; margin-top: -16.5px; width: 33px; height: 33px; transform: translate3d(356px, 155px, 0px);"><img src="../../modules/custom/utility/leaflet/css/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -16.5px; margin-top: -16.5px; width: 33px; height: 33px; transform: translate3d(415px, 254px, 0px);"><img src="../../modules/custom/utility/leaflet/css/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -16.5px; margin-top: -16.5px; width: 33px; height: 33px; transform: translate3d(415px, 104px, 0px);"><img src="../../modules/custom/utility/leaflet/css/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -16.5px; margin-top: -16.5px; width: 33px; height: 33px; transform: translate3d(326px, 197px, 0px);"><img src="../../modules/custom/utility/leaflet/css/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -16.5px; margin-top: -16.5px; width: 33px; height: 33px; transform: translate3d(793px, 567px, 0px);"><img src="../../modules/custom/utility/leaflet/css/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -16.5px; margin-top: -16.5px; width: 33px; height: 33px; transform: translate3d(819px, 509px, 0px);"><img src="../../modules/custom/utility/leaflet/css/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -16.5px; margin-top: -16.5px; width: 33px; height: 33px; transform: translate3d(633px, 411px, 0px);"><img src="../../modules/custom/utility/leaflet/css/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -16.5px; margin-top: -16.5px; width: 33px; height: 33px; transform: translate3d(641px, 453px, 0px);"></div><div class="leaflet-pane leaflet-overlay-pane"></div><div class="leaflet-pane leaflet-marker-pane"><img src="../../modules/custom/utility/leaflet/css/images/marker-icon-green.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" style="margin-left: -10px; margin-top: -16.5px; width: 20px; height: 33px; transform: translate3d(482px, 343px, 0px); z-index: 343;"><img src="../../modules/custom/utility/leaflet/css/images/marker-icon-green.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" style="margin-left: -10px; margin-top: -16.5px; width: 20px; height: 33px; transform: translate3d(458px, 351px, 0px); z-index: 351;"><img src="../../modules/custom/utility/leaflet/css/images/marker-icon-green.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" style="margin-left: -10px; margin-top: -16.5px; width: 20px; height: 33px; transform: translate3d(670px, 373px, 0px); z-index: 373;"><img src="../../modules/custom/utility/leaflet/css/images/marker-icon-green.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" style="margin-left: -10px; margin-top: -16.5px; width: 20px; height: 33px; transform: translate3d(771px, 433px, 0px); z-index: 433;"><img src="../../modules/custom/utility/leaflet/css/images/marker-icon-green.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" style="margin-left: -10px; margin-top: -16.5px; width: 20px; height: 33px; transform: translate3d(354px, 239px, 0px); z-index: 239;"><img src="../../modules/custom/utility/leaflet/css/images/marker-icon-green.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" style="margin-left: -10px; margin-top: -16.5px; width: 20px; height: 33px; transform: translate3d(250px, 192px, 0px); z-index: 192;"><img src="../../modules/custom/utility/leaflet/css/images/marker-icon-green.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" style="margin-left: -10px; margin-top: -16.5px; width: 20px; height: 33px; transform: translate3d(845px, 506px, 0px); z-index: 506;"><img src="../../modules/custom/utility/leaflet/css/images/marker-icon-green.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" style="margin-left: -10px; margin-top: -16.5px; width: 20px; height: 33px; transform: translate3d(781px, 449px, 0px); z-index: 449;"><img src="../../modules/custom/utility/leaflet/css/images/marker-icon-green.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" style="margin-left: -10px; margin-top: -16.5px; width: 20px; height: 33px; transform: translate3d(777px, 567px, 0px); z-index: 567;"><img src="../../modules/custom/utility/leaflet/css/images/marker-icon-green.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" style="margin-left: -10px; margin-top: -16.5px; width: 20px; height: 33px; transform: translate3d(672px, 481px, 0px); z-index: 481;"><img src="../../modules/custom/utility/leaflet/css/images/marker-icon-green.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" style="margin-left: -10px; margin-top: -16.5px; width: 20px; height: 33px; transform: translate3d(559px, 400px, 0px); z-index: 400;"><img src="../../modules/custom/utility/leaflet/css/images/marker-icon-green.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" style="margin-left: -10px; margin-top: -16.5px; width: 20px; height: 33px; transform: translate3d(438px, 273px, 0px); z-index: 273;"><img src="../../modules/custom/utility/leaflet/css/images/marker-icon-green.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" style="margin-left: -10px; margin-top: -16.5px; width: 20px; height: 33px; transform: translate3d(658px, 398px, 0px); z-index: 398;"><img src="../../modules/custom/utility/leaflet/css/images/marker-icon-green.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" style="margin-left: -10px; margin-top: -16.5px; width: 20px; height: 33px; transform: translate3d(636px, 343px, 0px); z-index: 343;"><img src="../../modules/custom/utility/leaflet/css/images/marker-icon-green.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" style="margin-left: -10px; margin-top: -16.5px; width: 20px; height: 33px; transform: translate3d(501px, 294px, 0px); z-index: 294;"><img src="../../modules/custom/utility/leaflet/css/images/marker-icon-green.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" style="margin-left: -10px; margin-top: -16.5px; width: 20px; height: 33px; transform: translate3d(675px, 431px, 0px); z-index: 431;"><img src="../../modules/custom/utility/leaflet/css/images/marker-icon-green.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" style="margin-left: -10px; margin-top: -16.5px; width: 20px; height: 33px; transform: translate3d(698px, 397px, 0px); z-index: 397;"><img src="../../modules/custom/utility/leaflet/css/images/marker-icon-green.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" style="margin-left: -10px; margin-top: -16.5px; width: 20px; height: 33px; transform: translate3d(299px, 136px, 0px); z-index: 136;"><img src="../../modules/custom/utility/leaflet/css/images/marker-icon-green.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" style="margin-left: -10px; margin-top: -16.5px; width: 20px; height: 33px; transform: translate3d(380px, 192px, 0px); z-index: 192;"><img src="../../modules/custom/utility/leaflet/css/images/marker-icon-green.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" style="margin-left: -10px; margin-top: -16.5px; width: 20px; height: 33px; transform: translate3d(822px, 554px, 0px); z-index: 554;"><img src="../../modules/custom/utility/leaflet/css/images/marker-icon-green.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" style="margin-left: -10px; margin-top: -16.5px; width: 20px; height: 33px; transform: translate3d(649px, 435px, 0px); z-index: 435;"><img src="../../modules/custom/utility/leaflet/css/images/marker-icon-green.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" style="margin-left: -10px; margin-top: -16.5px; width: 20px; height: 33px; transform: translate3d(476px, 264px, 0px); z-index: 264;"><img src="../../modules/custom/utility/leaflet/css/images/marker-icon-green.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" style="margin-left: -10px; margin-top: -16.5px; width: 20px; height: 33px; transform: translate3d(577px, 318px, 0px); z-index: 318;"><img src="../../modules/custom/utility/leaflet/css/images/marker-icon-green.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" style="margin-left: -10px; margin-top: -16.5px; width: 20px; height: 33px; transform: translate3d(625px, 374px, 0px); z-index: 374;"><img src="../../modules/custom/utility/leaflet/css/images/marker-icon-green.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" style="margin-left: -10px; margin-top: -16.5px; width: 20px; height: 33px; transform: translate3d(743px, 418px, 0px); z-index: 418;"><img src="../../modules/custom/utility/leaflet/css/images/marker-icon-green.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" style="margin-left: -10px; margin-top: -16.5px; width: 20px; height: 33px; transform: translate3d(738px, 429px, 0px); z-index: 429;"><img src="../../modules/custom/utility/leaflet/css/images/marker-icon-green.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" style="margin-left: -10px; margin-top: -16.5px; width: 20px; height: 33px; transform: translate3d(708px, 432px, 0px); z-index: 432;"><img src="../../modules/custom/utility/leaflet/css/images/marker-icon-green.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" style="margin-left: -10px; margin-top: -16.5px; width: 20px; height: 33px; transform: translate3d(716px, 412px, 0px); z-index: 412;"><img src="../../modules/custom/utility/leaflet/css/images/marker-icon-green.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" style="margin-left: -10px; margin-top: -16.5px; width: 20px; height: 33px; transform: translate3d(326px, 164px, 0px); z-index: 164;"><img src="../../modules/custom/utility/leaflet/css/images/marker-icon-green.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" style="margin-left: -10px; margin-top: -16.5px; width: 20px; height: 33px; transform: translate3d(288px, 242px, 0px); z-index: 242;"><img src="../../modules/custom/utility/leaflet/css/images/marker-icon-green.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" style="margin-left: -10px; margin-top: -16.5px; width: 20px; height: 33px; transform: translate3d(313px, 188px, 0px); z-index: 188;"><img src="../../modules/custom/utility/leaflet/css/images/marker-icon-green.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" style="margin-left: -10px; margin-top: -16.5px; width: 20px; height: 33px; transform: translate3d(767px, 497px, 0px); z-index: 497;"><img src="../../modules/custom/utility/leaflet/css/images/marker-icon-green.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" style="margin-left: -10px; margin-top: -16.5px; width: 20px; height: 33px; transform: translate3d(790px, 485px, 0px); z-index: 485;"><img src="../../modules/custom/utility/leaflet/css/images/marker-icon-green.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" style="margin-left: -10px; margin-top: -16.5px; width: 20px; height: 33px; transform: translate3d(742px, 469px, 0px); z-index: 469;"><img src="../../modules/custom/utility/leaflet/css/images/marker-icon-green.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" style="margin-left: -10px; margin-top: -16.5px; width: 20px; height: 33px; transform: translate3d(824px, 579px, 0px); z-index: 579;"><img src="../../modules/custom/utility/leaflet/css/images/marker-icon-green.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" style="margin-left: -10px; margin-top: -16.5px; width: 20px; height: 33px; transform: translate3d(696px, 472px, 0px); z-index: 472;"><img src="../../modules/custom/utility/leaflet/css/images/marker-icon-green.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" style="margin-left: -10px; margin-top: -16.5px; width: 20px; height: 33px; transform: translate3d(582px, 401px, 0px); z-index: 401;"><img src="../../modules/custom/utility/leaflet/css/images/marker-icon-green.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" style="margin-left: -10px; margin-top: -16.5px; width: 20px; height: 33px; transform: translate3d(599px, 423px, 0px); z-index: 423;"><img src="../../modules/custom/utility/leaflet/css/images/marker-icon-green.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" style="margin-left: -10px; margin-top: -16.5px; width: 20px; height: 33px; transform: translate3d(561px, 445px, 0px); z-index: 445;"><img src="../../modules/custom/utility/leaflet/css/images/marker-icon-green.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" style="margin-left: -10px; margin-top: -16.5px; width: 20px; height: 33px; transform: translate3d(550px, 295px, 0px); z-index: 295;"><img src="../../modules/custom/utility/leaflet/css/images/marker-icon-green.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" style="margin-left: -10px; margin-top: -16.5px; width: 20px; height: 33px; transform: translate3d(645px, 382px, 0px); z-index: 382;"><img src="../../modules/custom/utility/leaflet/css/images/marker-icon-green.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" style="margin-left: -10px; margin-top: -16.5px; width: 20px; height: 33px; transform: translate3d(605px, 328px, 0px); z-index: 328;"><img src="../../modules/custom/utility/leaflet/css/images/marker-icon-green.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" style="margin-left: -10px; margin-top: -16.5px; width: 20px; height: 33px; transform: translate3d(504px, 333px, 0px); z-index: 333;"><img src="../../modules/custom/utility/leaflet/css/images/marker-icon-green.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" style="margin-left: -10px; margin-top: -16.5px; width: 20px; height: 33px; transform: translate3d(715px, 453px, 0px); z-index: 453;"><img src="../../modules/custom/utility/leaflet/css/images/marker-icon-green.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" style="margin-left: -10px; margin-top: -16.5px; width: 20px; height: 33px; transform: translate3d(267px, 117px, 0px); z-index: 117;"><img src="../../modules/custom/utility/leaflet/css/images/marker-icon-green.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" style="margin-left: -10px; margin-top: -16.5px; width: 20px; height: 33px; transform: translate3d(216px, 181px, 0px); z-index: 181;"><img src="../../modules/custom/utility/leaflet/css/images/marker-icon-green.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" style="margin-left: -10px; margin-top: -16.5px; width: 20px; height: 33px; transform: translate3d(302px, 287px, 0px); z-index: 287;"><img src="../../modules/custom/utility/leaflet/css/images/marker-icon-green.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" style="margin-left: -10px; margin-top: -16.5px; width: 20px; height: 33px; transform: translate3d(554px, 430px, 0px); z-index: 430;"><img src="../../modules/custom/utility/leaflet/css/images/marker-icon-green.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" style="margin-left: -10px; margin-top: -16.5px; width: 20px; height: 33px; transform: translate3d(578px, 425px, 0px); z-index: 425;"><img src="../../modules/custom/utility/leaflet/css/images/marker-icon-green.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" style="margin-left: -10px; margin-top: -16.5px; width: 20px; height: 33px; transform: translate3d(841px, 540px, 0px); z-index: 540;"><img src="../../modules/custom/utility/leaflet/css/images/marker-icon-green.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" style="margin-left: -10px; margin-top: -16.5px; width: 20px; height: 33px; transform: translate3d(761px, 522px, 0px); z-index: 522;"><img src="../../modules/custom/utility/leaflet/css/images/marker-icon-yellow.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" style="margin-left: -10px; margin-top: -16.5px; width: 20px; height: 33px; transform: translate3d(410px, 270px, 0px); z-index: 270;"><img src="../../modules/custom/utility/leaflet/css/images/marker-icon-yellow.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" style="margin-left: -10px; margin-top: -16.5px; width: 20px; height: 33px; transform: translate3d(435px, 291px, 0px); z-index: 291;"><img src="../../modules/custom/utility/leaflet/css/images/marker-icon-yellow.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" style="margin-left: -10px; margin-top: -16.5px; width: 20px; height: 33px; transform: translate3d(508px, 370px, 0px); z-index: 370;"><img src="../../modules/custom/utility/leaflet/css/images/marker-icon-yellow.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" style="margin-left: -10px; margin-top: -16.5px; width: 20px; height: 33px; transform: translate3d(451px, 338px, 0px); z-index: 338;"><img src="../../modules/custom/utility/leaflet/css/images/marker-icon-yellow.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" style="margin-left: -10px; margin-top: -16.5px; width: 20px; height: 33px; transform: translate3d(544px, 343px, 0px); z-index: 343;"><img src="../../modules/custom/utility/leaflet/css/images/marker-icon-yellow.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" style="margin-left: -10px; margin-top: -16.5px; width: 20px; height: 33px; transform: translate3d(542px, 375px, 0px); z-index: 375;"><img src="../../modules/custom/utility/leaflet/css/images/marker-icon-yellow.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" style="margin-left: -10px; margin-top: -16.5px; width: 20px; height: 33px; transform: translate3d(566px, 317px, 0px); z-index: 317;"><img src="../../modules/custom/utility/leaflet/css/images/marker-icon-yellow.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" style="margin-left: -10px; margin-top: -16.5px; width: 20px; height: 33px; transform: translate3d(573px, 342px, 0px); z-index: 342;"><img src="../../modules/custom/utility/leaflet/css/images/marker-icon-yellow.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" style="margin-left: -10px; margin-top: -16.5px; width: 20px; height: 33px; transform: translate3d(602px, 392px, 0px); z-index: 392;"><img src="../../modules/custom/utility/leaflet/css/images/marker-icon-yellow.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" style="margin-left: -10px; margin-top: -16.5px; width: 20px; height: 33px; transform: translate3d(613px, 368px, 0px); z-index: 368;"><img src="../../modules/custom/utility/leaflet/css/images/marker-icon-yellow.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" style="margin-left: -10px; margin-top: -16.5px; width: 20px; height: 33px; transform: translate3d(649px, 357px, 0px); z-index: 357;"><img src="../../modules/custom/utility/leaflet/css/images/marker-icon-yellow.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" style="margin-left: -10px; margin-top: -16.5px; width: 20px; height: 33px; transform: translate3d(673px, 414px, 0px); z-index: 414;"><img src="../../modules/custom/utility/leaflet/css/images/marker-icon-yellow.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" style="margin-left: -10px; margin-top: -16.5px; width: 20px; height: 33px; transform: translate3d(285px, 209px, 0px); z-index: 209;"><img src="../../modules/custom/utility/leaflet/css/images/marker-icon-yellow.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" style="margin-left: -10px; margin-top: -16.5px; width: 20px; height: 33px; transform: translate3d(270px, 239px, 0px); z-index: 239;"><img src="../../modules/custom/utility/leaflet/css/images/marker-icon-yellow.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" style="margin-left: -10px; margin-top: -16.5px; width: 20px; height: 33px; transform: translate3d(358px, 225px, 0px); z-index: 225;"><img src="../../modules/custom/utility/leaflet/css/images/marker-icon-yellow.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" style="margin-left: -10px; margin-top: -16.5px; width: 20px; height: 33px; transform: translate3d(373px, 228px, 0px); z-index: 228;"><img src="../../modules/custom/utility/leaflet/css/images/marker-icon-yellow.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" style="margin-left: -10px; margin-top: -16.5px; width: 20px; height: 33px; transform: translate3d(388px, 209px, 0px); z-index: 209;"><img src="../../modules/custom/utility/leaflet/css/images/marker-icon-yellow.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" style="margin-left: -10px; margin-top: -16.5px; width: 20px; height: 33px; transform: translate3d(388px, 276px, 0px); z-index: 276;"><img src="../../modules/custom/utility/leaflet/css/images/marker-icon-yellow.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" style="margin-left: -10px; margin-top: -16.5px; width: 20px; height: 33px; transform: translate3d(329px, 221px, 0px); z-index: 221;"><img src="../../modules/custom/utility/leaflet/css/images/marker-icon-yellow.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" style="margin-left: -10px; margin-top: -16.5px; width: 20px; height: 33px; transform: translate3d(375px, 121px, 0px); z-index: 121;"><img src="../../modules/custom/utility/leaflet/css/images/marker-icon-yellow.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" style="margin-left: -10px; margin-top: -16.5px; width: 20px; height: 33px; transform: translate3d(347px, 165px, 0px); z-index: 165;"><img src="../../modules/custom/utility/leaflet/css/images/marker-icon-yellow.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" style="margin-left: -10px; margin-top: -16.5px; width: 20px; height: 33px; transform: translate3d(246px, 150px, 0px); z-index: 150;"><img src="../../modules/custom/utility/leaflet/css/images/marker-icon-yellow.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" style="margin-left: -10px; margin-top: -16.5px; width: 20px; height: 33px; transform: translate3d(254px, 211px, 0px); z-index: 211;"><img src="../../modules/custom/utility/leaflet/css/images/marker-icon-yellow.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" style="margin-left: -10px; margin-top: -16.5px; width: 20px; height: 33px; transform: translate3d(339px, 289px, 0px); z-index: 289;"><img src="../../modules/custom/utility/leaflet/css/images/marker-icon-yellow.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" style="margin-left: -10px; margin-top: -16.5px; width: 20px; height: 33px; transform: translate3d(378px, 99px, 0px); z-index: 99;"><img src="../../modules/custom/utility/leaflet/css/images/marker-icon-yellow.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" style="margin-left: -10px; margin-top: -16.5px; width: 20px; height: 33px; transform: translate3d(292px, 173px, 0px); z-index: 173;"><img src="../../modules/custom/utility/leaflet/css/images/marker-icon-yellow.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" style="margin-left: -10px; margin-top: -16.5px; width: 20px; height: 33px; transform: translate3d(356px, 155px, 0px); z-index: 155;"><img src="../../modules/custom/utility/leaflet/css/images/marker-icon-yellow.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" style="margin-left: -10px; margin-top: -16.5px; width: 20px; height: 33px; transform: translate3d(415px, 254px, 0px); z-index: 254;"><img src="../../modules/custom/utility/leaflet/css/images/marker-icon-yellow.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" style="margin-left: -10px; margin-top: -16.5px; width: 20px; height: 33px; transform: translate3d(415px, 104px, 0px); z-index: 104;"><img src="../../modules/custom/utility/leaflet/css/images/marker-icon-yellow.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" style="margin-left: -10px; margin-top: -16.5px; width: 20px; height: 33px; transform: translate3d(326px, 197px, 0px); z-index: 197;"><img src="../../modules/custom/utility/leaflet/css/images/marker-icon-yellow.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" style="margin-left: -10px; margin-top: -16.5px; width: 20px; height: 33px; transform: translate3d(793px, 567px, 0px); z-index: 567;"><img src="../../modules/custom/utility/leaflet/css/images/marker-icon-yellow.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" style="margin-left: -10px; margin-top: -16.5px; width: 20px; height: 33px; transform: translate3d(819px, 509px, 0px); z-index: 509;"><img src="../../modules/custom/utility/leaflet/css/images/marker-icon-yellow.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" style="margin-left: -10px; margin-top: -16.5px; width: 20px; height: 33px; transform: translate3d(633px, 411px, 0px); z-index: 411;"><img src="../../modules/custom/utility/leaflet/css/images/marker-icon-yellow.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" style="margin-left: -10px; margin-top: -16.5px; width: 20px; height: 33px; transform: translate3d(641px, 453px, 0px); z-index: 453;"></div><div class="leaflet-pane leaflet-tooltip-pane"></div><div class="leaflet-pane leaflet-popup-pane"></div><div class="leaflet-proxy leaflet-zoom-animated"></div></div><div class="leaflet-control-container"><div class="leaflet-top leaflet-left"><div class="gin-control-zoom leaflet-bar leaflet-control"><a class="gin-control-zoom-in" href="#" title="Zoom in">+</a><a class="gin-control-zoom-home" href="#" title="Zoom home"><i class="fa fa-home" style="line-height:1.65;"></i></a><a class="gin-control-zoom-out" href="#" title="Zoom out">-</a></div><div class="legend-container legend-collapsed leaflet-control" aria-haspopup="true"><a class=" legend-toggle" href="#" title="Legenda"><i class="legend-toggle-icon fa fa-info fa-2x" style="color: #000"></i></a><div id="legend">
+	<fieldset>
+		<legend>LEGENDA STAZIONI:</legend> 
+		<div>
+    	<img src="../../modules/custom/utility/leaflet/css/images/marker-icon-green.png">
+    	Stazioni Fisse - Rete Agrometeorologica Regione Puglia 
+    </div>
+ 		<div>
+ 			<img src="../../modules/custom/utility/leaflet/css/images/marker-icon-yellow.png">
+ 			Stazioni Mobili - Rete Agrometeorologica Regione Puglia 
+ 		</div>
+ 		<div>
+ 			<img src="../../modules/custom/utility/leaflet/css/images/marker-icon-orange.png">
+ 			Stazioni UNILE - Rete Agrometeorologica Regione Puglia 
+ 		</div>	
+ 	</fieldset>	
+</div></div><div class="leaflet-control-search leaflet-control"><label class="search-input" for="searchtext18" style="display: none;"></label><input class="search-input" type="text" size="18" autocomplete="off" autocapitalize="off" placeholder="Cerca in Puglia..." role="search" id="searchtext18" style="display: none;"><ul class="search-tooltip" style="display: none;"></ul><a class="search-cancel" href="#" title="Annulla" style="display: none;"><span>⊗</span></a><a class="search-button" href="#" title="Cerca in Puglia..."></a><div class="search-alert" style="display: none;"></div></div></div><div class="leaflet-top leaflet-right"><div class="leaflet-control-measure leaflet-control" aria-haspopup="true"><a class="leaflet-control-measure-toggle js-toggle" href="#" title="Misura distanze e aree">Misura</a>
+<div class="leaflet-control-measure-interaction js-interaction" style="display:none;">
+  <div class="js-startprompt startprompt">
+    <h3>Misura distanze e aree</h3>
+    <ul class="tasks">
+      <a href="#" class="js-start start">Crea una nuova misurazione</a>
+    </ul>
+  </div>
+  <div class="js-measuringprompt" style="display:none;">
+    <h3>Misura distanze e aree</h3>
+    <p class="js-starthelp" style="display:none;">Comincia a creare una misurazione aggiungendo punti alla mappa</p>
+    <div class="js-results results" style="display:none;"></div>
+    <ul class="js-measuretasks tasks" style="display:none;">
+      <li><a href="#" class="js-cancel cancel">Annulla</a></li>
+      <li><a href="#" class="js-finish finish">Misurazione conclusa</a></li>
+    </ul>
+  </div>
+</div></div></div><div class="leaflet-bottom leaflet-left"></div><div class="leaflet-bottom leaflet-right"><div class="leaflet-control-attribution leaflet-control"><a href="http://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> | © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors</div></div></div></div>
+
+
+
+<script>
+
+	// Informazioni modulo
+	jQuery(".intestazione").click(function () {
+		$intestazione = jQuery(this);
+		$contenuto = $intestazione.next();
+		$contenuto.slideToggle(500, function () {
+			$intestazione.text(function () {
+				//return $contenuto.is(":visible") ? "Chiudi" : "Informazioni modulo";
+				if ($contenuto.is(":visible") ) {
+					jQuery('.text-info').text("Chiudi");
+				} else {
+					jQuery('.text-info').text("Informazioni modulo");
+				}
+			});
+		});
+	});
+
+	// Inizializzazione Marker
+	// Icona Stazioni Fisse
+	var FissaIcon = new L.Icon({
+	  iconUrl: '../../modules/custom/utility/leaflet/css/images/marker-icon-green.png',
+	  shadowUrl: '../../modules/custom/utility/leaflet/css/images/marker-shadow.png',
+	  iconSize: [20, 33],
+	  //iconAnchor: [12, 41],
+	  //popupAnchor: [1, -34],
+	  shadowSize: [33, 33]
+	});
+	
+	// Icona Stazioni Mobili
+	var MobileIcon = new L.Icon({
+	  iconUrl: '../../modules/custom/utility/leaflet/css/images/marker-icon-yellow.png',
+	  shadowUrl: '../../modules/custom/utility/leaflet/css/images/marker-shadow.png',
+	  iconSize: [20, 33],
+	  //iconAnchor: [12, 41],
+	  //popupAnchor: [1, -34],
+	  shadowSize: [33, 33]
+	});
+	
+	// Icona Stazioni UNILE
+	var UNILEIcon = new L.Icon({
+	  iconUrl: '../../modules/custom/utility/leaflet/css/images/marker-icon-orange.png',
+	  shadowUrl: '../../modules/custom/utility/leaflet/css/images/marker-shadow.png',
+	  iconSize: [20, 33],
+	  //iconAnchor: [12, 41],
+	  //popupAnchor: [1, -34],
+	  shadowSize: [33, 33]
+	});
+
+
+	// Inizializzazione mappa e switch osm - google tramite plugin draw
+	/*var osmUrl = 'http://{s}.tile.osm.org/{z}/{x}/{y}.png' 
+		osmAttrib = '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a>',
+		osmid = 'mapbox.streets',
+		osm = L.tileLayer(osmUrl, { maxZoom: 18, attribution: osmAttrib})
+		map = new L.Map('map', {center: new L.LatLng(40.94, 16.93), zoom: 8, scrollWheelZoom: false, zoomControl:false}),
+		drawnItems = L.featureGroup().addTo(map);
+	L.control.layers({
+		'osm':osm.addTo(map),
+		"google": L.tileLayer('http://www.google.com/maps/vt?lyrs=s@189&gl=cn&x={x}&y={y}&z={z}', {
+		attribution: 'google'
+		})
+	}, {'Disegno':drawnItems}, { position: 'topright', collapsed: false }).addTo(map);*/
+	
+	// Inizializzazione mappa
+	var map = new L.Map('map', {center: new L.LatLng(40.94, 16.93), zoom: 8, scrollWheelZoom: false, zoomControl:false});
+
+	// Layer info mappa	
+	L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+		maxZoom: 18,
+		attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+		id: 'mapbox.streets'
+	}).addTo(map);
+	
+	
+	// Sezione Zoom Home
+	/*var home = {
+		lat: 40.94, 
+		lng: 16.93,
+		zoom: 8
+	}; 
+	L.easyButton('fa-home',function(btn,map){
+	  map.setView([home.lat, home.lng], home.zoom);
+	},'Home').addTo(map);
+	*/
+
+	
+	
+	
+	// custom zoom bar control that includes a Zoom Home function
+	L.Control.zoomHome = L.Control.extend({
+	    options: {
+	        position: 'topleft',
+	        zoomInText: '+',
+	        zoomInTitle: 'Zoom in',
+	        zoomOutText: '-',
+	        zoomOutTitle: 'Zoom out',
+	        zoomHomeText: '<i class="fa fa-home" style="line-height:1.65;"></i>',
+	        zoomHomeTitle: 'Zoom home'
+	    },
+
+	    onAdd: function (map) {
+	        var controlName = 'gin-control-zoom',
+	            container = L.DomUtil.create('div', controlName + ' leaflet-bar'),
+	            options = this.options;
+
+	        this._zoomInButton = this._createButton(options.zoomInText, options.zoomInTitle,
+	        controlName + '-in', container, this._zoomIn);
+	        this._zoomHomeButton = this._createButton(options.zoomHomeText, options.zoomHomeTitle,
+	        controlName + '-home', container, this._zoomHome);
+	        this._zoomOutButton = this._createButton(options.zoomOutText, options.zoomOutTitle,
+	        controlName + '-out', container, this._zoomOut);
+
+	        this._updateDisabled();
+	        map.on('zoomend zoomlevelschange', this._updateDisabled, this);
+
+	        return container;
+	    },
+
+	    onRemove: function (map) {
+	        map.off('zoomend zoomlevelschange', this._updateDisabled, this);
+	    },
+
+	    _zoomIn: function (e) {
+	        this._map.zoomIn(e.shiftKey ? 3 : 1);
+	    },
+
+	    _zoomOut: function (e) {
+	        this._map.zoomOut(e.shiftKey ? 3 : 1);
+	    },
+
+	    _zoomHome: function (e) {
+	        map.setView([40.94, 16.93], 8);
+	    },
+
+	    _createButton: function (html, title, className, container, fn) {
+	        var link = L.DomUtil.create('a', className, container);
+	        link.innerHTML = html;
+	        link.href = '#';
+	        link.title = title;
+
+	        L.DomEvent.on(link, 'mousedown dblclick', L.DomEvent.stopPropagation)
+	            .on(link, 'click', L.DomEvent.stop)
+	            .on(link, 'click', fn, this)
+	            .on(link, 'click', this._refocusOnMap, this);
+
+	        return link;
+	    },
+
+	    _updateDisabled: function () {
+	        var map = this._map,
+	            className = 'leaflet-disabled';
+
+	        L.DomUtil.removeClass(this._zoomInButton, className);
+	        L.DomUtil.removeClass(this._zoomOutButton, className);
+
+	        if (map._zoom === map.getMinZoom()) {
+	            L.DomUtil.addClass(this._zoomOutButton, className);
+	        }
+	        if (map._zoom === map.getMaxZoom()) {
+	            L.DomUtil.addClass(this._zoomInButton, className);
+	        }
+	    }
+	});
+	// add the new control to the map
+	var zoomHome = new L.Control.zoomHome();
+	zoomHome.addTo(map);
+	
+	// Sezione Legenda
+	var Legend =  new L.Control.Legend({
+        position: 'topleft',
+        collapsed: true,
+        controlButton: {
+            title: "Legenda"
+        }
+	});
+	map.addControl( Legend );
+	$(".legend-container").append( $("#legend") );
+	$(".legend-toggle").append( "<i class='legend-toggle-icon fa fa-info fa-2x' style='color: #000'></i>" );
+
+	// Sezione Misura Distanza
+	measureControl = new L.Control.Measure({
+			primaryLengthUnit: 'meters', 
+			secondaryLengthUnit: 'kilometers',
+			primaryAreaUnit: 'sqmeters', 
+			secondaryAreaUnit: undefined,
+			completedColor: '#0088FF',
+			activeColor: '#73BEFF',
+			localization: 'it'
+	});
+	measureControl.addTo(map);
+	
+	// Funzione per settare il raggio nella ricerca comuni
+	var markerSearch;
+	var search;
+	function setRadiusSearch() {
+		// Inizializzo il tipo di marcatore per il plugin search (ricerca comuni)
+		markerSearch = L.circle([0,0], {
+			color: 'red',
+			fillColor: '#f03',
+			fillOpacity: 0.25,
+			radius: radiusSearch * 1000
+		});
+		
+		// Aggiungo popup con raggio al cerchio della ricerca comuni
+		if (markerSearch instanceof L.Circle){
+			markerSearch.bindPopup('<b>Raggio: </b>' + markerSearch.getRadius().toFixed(0) / 1000 + ' Km').openPopup();
+		};
+		
+		// Sezione ricerca comuni (costruttore)
+		search = new L.Control.Search({
+			url: '//nominatim.openstreetmap.org/search?format=json&city={s}&state=Puglia&country=Italia&limit=1', // Solo comuni
+			//url: 'http://nominatim.openstreetmap.org/search?format=json&q={s},Puglia,Italia&limit=1', // Query
+			jsonpParam: 'json_callback',
+			propertyName: 'display_name',
+			propertyLoc: ['lat','lon'],
+			autoCollapse: true,
+			autoType: false,
+			minLength: 2,
+			textErr: 'Luogo non trovato',
+			textCancel: 'Annulla',
+			textPlaceholder: 'Cerca in Puglia...',
+			marker: markerSearch
+		});
+		map.addControl(search);
+	};
+	
+	// Raggio cerchio ricerca in Km
+	var radiusSearch = document.getElementById('radius').value;
+	setRadiusSearch();
+	// Al cambio dell'input richiamo la funzione del set del raggio e del costruttore per la ricerca dei comuni	
+	$('#radius').on('input', function(){
+		radiusSearch = document.getElementById('radius').value;
+		if (search != undefined) {
+			map.removeLayer(markerSearch);
+			map.removeControl(search);
+		}
+		setRadiusSearch();
+	});
+	
+	// Caricamento file stazioni
+	var geojsonLayer = L.featureGroup().addTo(map);
+	geojsonLayer = new L.GeoJSON.AJAX("../../modules/custom/utility/json/stazioni_rete_assoco.json", {
+		// Ciclo per aggiungere tutte le stazioni
+		onEachFeature: function (feature, layer) {		
+			// Cambio le icone in base al tipo di stazioni
+
+			if (feature.properties.nome_rete.search("stazioni fisse")!=-1) {
+				layer.setIcon(FissaIcon);
+				console.log ("Fissa");
+			} else if (feature.properties.nome_rete.search("stazioni mobili")!=-1) { 
+				layer.setIcon(MobileIcon);
+				console.log ("Mobile");
+			} else { 
+				layer.setIcon(UNILEIcon);
+				console.log ("UNILE");
+			}	
+		  // Pop-up con proprietà stazioni 
+			/*layer.bindPopup("<b>Nome Stazione: </b>" + feature.properties.NomeStaz + "<br><b>Tipo: </b>" + feature.properties.Tipo + "<br><b>Codice: </b>" + feature.properties.Code 
+				+ "<br><b>Coordinate: </b>" + feature.properties.X.toFixed(6) + " , "  + feature.properties.Y.toFixed(6) + "<br><b>X GEO DMS: </b>" + feature.properties.coord_x + "<br><b>Y GEO DMS: </b>" + feature.properties.coord_y + "<br><b>Quota s.l.m.: </b>" + feature.properties.Z.toFixed(2) + " m"
+				+ '<br><br><a onClick="detailsStation(\'' + feature.properties.Code + '\',\'' + feature.properties.NomeStaz + '\',\'' + feature.properties.Z.toFixed(2) + '\',\'' + feature.properties.X.toFixed(6) + '\',\'' + feature.properties.Y.toFixed(6) + '\',0,\'\')" href="javascript:void(0)">Dettagli</a>'
+			);*/			
+			var nomeStaz=(feature.properties.nome_stazione!=feature.properties.nome_comune) ? feature.properties.nome_comune + " - " +feature.properties.nome_stazione : feature.properties.nome_stazione; 
+			layer.bindPopup("<b>Nome Stazione: </b>" + nomeStaz + "<br><b>Rete: </b>" + feature.properties.nome_rete + "<br><b>Codice: </b>" + feature.properties.cod_stazione 
+				+ "<br><b>Coordinate: </b>" + feature.properties.latitudine + " , "  + feature.properties.longitudine + "<br><b>Quota s.l.m.: </b>" + feature.properties.quota_stazione + " m"
+				+ '<br><br><a onClick="detailsStation(\'' + feature.properties.cod_stazione + '\',\'' + nomeStaz.replace(/'/g, "\\'") + '\',\'' + feature.properties.quota_stazione + '\',\'' + feature.properties.longitudine + '\',\'' + feature.properties.latitudine + '\',0,\''+drupalSettings.api+'\')" href="javascript:void(0)">Dettagli</a>'
+			);
+			//layer.on('mouseover', function() { layer.openPopup(); });
+		}
+	 }).addTo(map);
+	 
+	// Sezione zoom quando viene cliccato un marker	
+	// Se viene cliccato un marker stazione...	
+	geojsonLayer.on("click", function (e) {
+		// Viene aperto il popup...
+		e.layer.openPopup();
+		// Viene effettuato uno zoom se la visuale è minore di 10 altrimenti viene solo centrato
+		/*if (map.getZoom() < 10) {
+			map.setView(e.layer.getLatLng(), 10, {animate: true});
+		} else {
+		geojsonLayer.openPopup();
+			map.setView(e.layer.getLatLng(), map.getZoom(), {animate: true});
+		}*/
+	});
+	
+	// Sezione Draw
+    var drawControl = new L.Control.Draw({
+        position: 'topright',
+        draw: {
+			polyline: false,
+			rectangle: false,
+            polygon: false,
+            circle: true,
+            marker: true
+        },
+        edit: {
+            featureGroup: drawnItems,
+            remove: true
+        }
+    });
+    map.addControl(drawControl);
+	// Draw creazione oggetto
+    map.on('draw:created', function (e) {
+        var type = e.layerType,
+        layer = e.layer;
+
+		if (type === 'marker') {
+            layer.bindPopup('<b>Coordinate: </b>' + layer.getLatLng()).openPopup();
+        }
+		
+		if (type === 'circle') {
+            layer.bindPopup('<b>Raggio: </b>' + layer.getRadius().toFixed(0) / 1000 + ' Km').openPopup();
+        }
+		
+        drawnItems.addLayer(layer);
+    });
+	// Draw modifica oggetto
+    map.on('draw:edited', function (e) {
+		var type = e.layerType;
+        var layers = e.layers;
+        var countOfEditedLayers = 0;
+        layers.eachLayer(function(layer) {
+			countOfEditedLayers++;
+		
+			if (layer instanceof L.Marker){
+				layer.bindPopup('<b>Coordinate: </b>' + layer.getLatLng()).openPopup();
+			}
+			
+			if (layer instanceof L.Circle){
+				layer.bindPopup('<b>Raggio: </b>' + layer.getRadius().toFixed(0) / 1000 + ' Km').openPopup();
+			}
+		});
+        console.log("Edited " + countOfEditedLayers + " layers");
+    });
+		
+</script>
+<!-- END OUTPUT from 'modules/custom/MappaStazioniMeteo/templates/MappaStazioniMeteo.html.twig' -->
+
+
+  </div>
+
+<!-- END OUTPUT from 'themes/drupal8_zymphonies_theme/templates/block/block.html.twig' -->
+
+
+  </div>
+
+<!-- END OUTPUT from 'themes/drupal8_zymphonies_theme/templates/layout/region.html.twig' -->
+
+
+          </div>
+        </div>
+            <!---End content -->
+
+      <!--- Start Right SideBar -->
+            <!---End Right SideBar -->
+      
+    </div>
+    <!--End Content -->
+
+    <!--Start Content Bottom-->
+        <!--End Content Bottom-->
+  </div>
+</div>
+<!-- End layout -->
+
+
+
+
+
+
+<!-- Start bottom -->
+<!--End Bottom -->
+
+
+
+
+
+<style>
+div.background {
+    background: url(/image/xilella/Xilella.jfif) repeat;
+}
+
+div.transbox {
+    /*margin: 2%;*/
+    background-color: #ffffff;
+    opacity: 0.8;
+    filter: alpha(opacity=80); /* For IE8 and earlier */
+}
+
+@-webkit-keyframes blinker
+{
+0% { opacity: 0.3; }
+50% { opacity: 1.0; }
+100% { opacity: 0.3; }
+}
+
+/* Creiamo adesso la classe css che conterrà l’animazione, specificandogli il
+numero di iterazioni da eseguire e la funzione di timing */
+.css3_blink
+{
+-webkit-animation-name: blinker;
+-webkit-animation-iteration-count: infinite;
+-webkit-animation-timing-function: cubic-bezier(.5, 0, 1, 1);
+-webkit-animation-duration: 1.7s;
+color: red;
+}
+
+</style>
+
+
+
+
+<!-- Google map -->
+<!-- End Google map -->
+
+
+<script type="text/javascript">var nibirumail_advice_text = 'Questo sito utilizza i cookie per assicurarti la migliore esperienza nel nostro sito. <a href="/cookie-policy" target="_blank">Approfondisci</a>. <a href="javascript:;" class="nibirumail_agreement">Accetto</a>';</script>
+<script type="text/javascript" src="https://nibirumail.com/docs/scripts/nibirumail.cookie.min.js"></script>
+
+
+<!-- END OUTPUT from 'themes/drupal8_zymphonies_theme/templates/layout/page.html.twig' -->
+
+
+  </div>
+
+<!-- END OUTPUT from 'core/themes/stable/templates/content/off-canvas-page-wrapper.html.twig' -->
+
+
+    
+    <script type="application/json" data-drupal-selector="drupal-settings-json">{"path":{"baseUrl":"\/","scriptPath":null,"pathPrefix":"","currentPath":"osservazioni\/mappa-stazioni-meteo","currentPathIsAdmin":false,"isFront":false,"currentLanguage":"it"},"pluralDelimiter":"\u0003","suppressDeprecationErrors":true,"ajaxPageState":{"libraries":"MappaStazioniMeteo\/MappaStazioniMeteoLib,core\/html5shiv,drupal8_zymphonies_theme\/bootstrap,drupal8_zymphonies_theme\/global-components,google_analytics\/google_analytics,system\/base","theme":"drupal8_zymphonies_theme","theme_token":null},"ajaxTrustedUrl":[],"google_analytics":{"account":"UA-98530151-1","trackOutbound":true,"trackMailto":true,"trackDownload":true,"trackDownloadExtensions":"7z|aac|arc|arj|asf|asx|avi|bin|csv|doc(x|m)?|dot(x|m)?|exe|flv|gif|gz|gzip|hqx|jar|jpe?g|js|mp(2|3|4|e?g)|mov(ie)?|msi|msp|pdf|phps|png|ppt(x|m)?|pot(x|m)?|pps(x|m)?|ppam|sld(x|m)?|thmx|qtm?|ra(m|r)?|sea|sit|tar|tgz|torrent|txt|wav|wma|wmv|wpd|xls(x|m|b)?|xlt(x|m)|xlam|xml|z|zip","trackDomainMode":2,"trackCrossDomains":["www.agrometeopuglia.it,www.agrometeopuglia.it\/api,http:\/\/www.agrometeopuglia.it\/bollettino-elettronico"],"trackUrlFragments":true},"key":"OGY1YjQ4OTA0YjBmNGUzYzljMzNkNTM1ZTYzZmZlNzAyYjc4NmY2OTNlY2FjYjJkM2RmODQ2Nzc0MzM3OWE2NDYwMjk4MDMwMjgxOTI3MjhiN2Q1ZjAxYmE5MmNhN2Zl","user":{"uid":0,"permissionsHash":"99c4706b208b8e0307ebb7cdc821aa19455d811a5ca39f4b61bdf4a2e263b372"}}</script>
+<script src="/core/assets/vendor/jquery-once/jquery.once.min.js?v=2.2.3"></script>
+<script src="/core/misc/drupalSettingsLoader.js?v=8.9.9"></script>
+<script src="/core/misc/drupal.js?v=8.9.9"></script>
+<script src="/core/misc/drupal.init.js?v=8.9.9"></script>
+<script src="/modules/google_analytics/js/google_analytics.js?v=8.9.9"></script>
+<script src="/core/misc/progress.js?v=8.9.9"></script>
+<script src="/core/misc/ajax.js?v=8.9.9"></script>
+<script src="/core/themes/stable/js/ajax.js?v=8.9.9"></script>
+<script src="/themes/drupal8_zymphonies_theme/includes/bootstrap/js/bootstrap.min.js?v=1.x"></script>
+<script src="/themes/drupal8_zymphonies_theme/js/jquery.smartmenus.min.js?td5mus"></script>
+<script src="/themes/drupal8_zymphonies_theme/js/custom.js?td5mus"></script>
+<script src="/themes/drupal8_zymphonies_theme/js/extend_home.js?td5mus"></script>
+
+  
+
+
+
+
+</body></html>
