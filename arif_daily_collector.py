@@ -53,7 +53,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # ============================================================================
-# CAPTURA DE API KEY (PLAYWRIGHT EN ESTADO ATTACHED)
+# CAPTURA DE API KEY (PLAYWRIGHT MEDIANTE SONDEO ACTIVO)
 # ============================================================================
 
 def capturar_api_key_autonomo() -> str:
@@ -104,13 +104,7 @@ def capturar_api_key_autonomo() -> str:
             logger.info(f"Respuesta HTTP recibida: {response.status if response else 'No response'}")
             logger.info(f"Título de la página cargada: '{page.title()}'")
             
-            # Forzar espera a que la red se estabilice
-            try:
-                page.wait_for_load_state("networkidle", timeout=15000)
-            except:
-                pass
-            
-            # GUARDAR CAPTURA DE PANTALLA Y HTML DE DIAGNÓSTICO EN CASO DE BLOQUEO
+            # Guardar capturas de pantalla de depuración por si ocurre un fallo posterior
             screenshot_path = LOGS_DIR / "debug_github_daily.png"
             html_path = LOGS_DIR / "debug_github_daily.html"
             
@@ -120,23 +114,44 @@ def capturar_api_key_autonomo() -> str:
             logger.info(f"[DEBUG] Captura guardada en: {screenshot_path}")
             logger.info(f"[DEBUG] Código HTML guardado en: {html_path}")
             
-            # CORREGIDO: Esperar a que los marcadores estén acoplados (attached) al HTML, sin verificar visibilidad
-            logger.info("Esperando que los marcadores estén acoplados en el HTML...")
-            page.wait_for_selector(".leaflet-marker-icon", state="attached", timeout=30000)
+            # SONDEO ACTIVO: Reemplaza wait_for_selector para evitar bloqueos del motor de Playwright
+            logger.info("Esperando que aparezcan los marcadores del mapa (Sondeo Activo)...")
+            marcadores_detectados = False
+            
+            for intento in range(1, 41): # 40 segundos máximo de espera (1s por intento)
+                conteo = page.locator(".leaflet-marker-icon").count()
+                if conteo > 0:
+                    logger.info(f"✓ Marcadores detectados en el DOM en el intento {intento} ({conteo} elementos).")
+                    marcadores_detectados = True
+                    break
+                page.wait_for_timeout(1000)
+            
+            if not marcadores_detectados:
+                logger.error("❌ Excedido el tiempo de espera. No se localizaron marcadores en el DOM.")
+                browser.close()
+                return None
             
             # Hacer clic forzado en un marcador
-            logger.info("Marcadores detectados en el DOM. Realizando clic forzado...")
+            logger.info("Realizando clic forzado en el primer marcador de estación...")
             page.locator(".leaflet-marker-icon").first.click(force=True)
             page.wait_for_timeout(3000)
             
-            # Hacer clic en Dettagli
-            enlaces_detalles = page.locator("a:has-text('Dettagli'), a:has-text('dettagli')")
-            if enlaces_detalles.count() > 0:
-                logger.info("Haciendo clic en el enlace 'Dettagli' del popup...")
-                enlaces_detalles.first.click(force=True)
-                page.wait_for_timeout(5000)
-            else:
-                logger.warning("No se localizó el enlace 'Dettagli' en el popup emergente.")
+            # Hacer clic en Dettagli usando sondeo activo
+            logger.info("Esperando que aparezca el enlace 'Dettagli'...")
+            enlace_detalles = page.locator("a:has-text('Dettagli'), a:has-text('dettagli')")
+            enlace_detectado = False
+            
+            for intento_det in range(1, 11): # 10 segundos de espera máximo
+                if enlace_detalles.count() > 0:
+                    logger.info("Haciendo clic en el enlace 'Dettagli' del popup emergente...")
+                    enlace_detalles.first.click(force=True)
+                    page.wait_for_timeout(5000)
+                    enlace_detectado = True
+                    break
+                page.wait_for_timeout(1000)
+                
+            if not enlace_detectado:
+                logger.warning("⚠️ No se localizó el enlace 'Dettagli' en el popup emergente.")
                 
             browser.close()
         except Exception as e:
@@ -230,7 +245,6 @@ def collect_daily_data():
         try:
             df_prev = pd.read_csv(DAILY_CSV)
             if 'date' in df_prev.columns and 'variable' in df_prev.columns:
-                # Normalización preventiva de fechas para compatibilidad con Excel
                 df_norm = df_prev.copy()
                 df_norm['date_parsed'] = pd.to_datetime(df_norm['date'], errors='coerce')
                 df_norm = df_norm.dropna(subset=['date_parsed'])
@@ -277,7 +291,6 @@ def collect_daily_data():
         sys.exit(1)
         
     df_new = pd.DataFrame(all_records)
-    # Filtrar rigurosamente registros que coincidan con la fecha de ayer
     df_new = df_new[df_new['date'] == fecha_ayer_str]
     
     logger.info(f"Nuevos registros válidos obtenidos de ayer: {len(df_new)}")
