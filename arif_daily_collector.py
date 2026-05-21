@@ -98,31 +98,20 @@ def capturar_api_key_autonomo() -> str:
             
             page.on("request", interceptar)
             
+            # OPTIMIZACIÓN: Esperar únicamente hasta el 'commit' (HTML inicial recibido)
             logger.info("Navegando a la página del mapa...")
-            response = page.goto(f"{ARIF_BASE_URL}/osservazioni/mappa-stazioni-meteo", timeout=60000)
+            response = page.goto(
+                f"{ARIF_BASE_URL}/osservazioni/mappa-stazioni-meteo", 
+                timeout=45000, 
+                wait_until="commit"
+            )
             
             logger.info(f"Respuesta HTTP recibida: {response.status if response else 'No response'}")
             logger.info(f"Título de la página cargada: '{page.title()}'")
             
-            # Forzar espera a que la red se estabilice
-            try:
-                page.wait_for_load_state("networkidle", timeout=15000)
-            except:
-                pass
-            
-            # GUARDAR CAPTURA DE PANTALLA Y HTML DE DIAGNÓSTICO EN CASO DE BLOQUEO
-            screenshot_path = LOGS_DIR / "debug_github_daily.png"
-            html_path = LOGS_DIR / "debug_github_daily.html"
-            
-            page.screenshot(path=str(screenshot_path))
-            html_path.write_text(page.content(), encoding='utf-8')
-            
-            logger.info(f"[DEBUG] Captura guardada en: {screenshot_path}")
-            logger.info(f"[DEBUG] Código HTML guardado en: {html_path}")
-            
-            # Esperar marcadores
+            # Esperar marcadores con timeout razonable (40 segundos)
             logger.info("Esperando que aparezcan los marcadores en el mapa...")
-            page.wait_for_selector(".leaflet-marker-icon", timeout=30000)
+            page.wait_for_selector(".leaflet-marker-icon", timeout=40000)
             
             # Hacer clic en un marcador
             logger.info("Marcadores detectados. Realizando clic en el primer elemento...")
@@ -135,6 +124,8 @@ def capturar_api_key_autonomo() -> str:
                 logger.info("Haciendo clic en el enlace 'Dettagli' del popup...")
                 enlaces_detalles.first.click(force=True)
                 page.wait_for_timeout(5000)
+            else:
+                logger.warning("No se localizó el enlace 'Dettagli' en el popup emergente.")
                 
             browser.close()
         except Exception as e:
