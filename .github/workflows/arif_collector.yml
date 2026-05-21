@@ -2,7 +2,7 @@ name: ARIF Spatial Data Collection
 
 on:
   schedule:
-    - cron: '5,35 * * * *'  # Dos veces por hora
+    - cron: '5 * * * *'  # Una vez por hora
   workflow_dispatch:
 
 jobs:
