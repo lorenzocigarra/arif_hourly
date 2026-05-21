@@ -111,8 +111,8 @@ def capturar_api_key_autonomo() -> str:
                 pass
             
             # GUARDAR CAPTURA DE PANTALLA Y HTML DE DIAGNÓSTICO EN CASO DE BLOQUEO
-            screenshot_path = LOGS_DIR / "debug_github_daily.png"
-            html_path = LOGS_DIR / "debug_github_daily.html"
+            screenshot_path = LOGS_DIR / "debug_github.png"
+            html_path = LOGS_DIR / "debug_github.html"
             
             page.screenshot(path=str(screenshot_path))
             html_path.write_text(page.content(), encoding='utf-8')
@@ -228,6 +228,7 @@ def collect_daily_data():
         try:
             df_prev = pd.read_csv(DAILY_CSV)
             if 'date' in df_prev.columns and 'variable' in df_prev.columns:
+                # Normalización preventiva de fechas para evitar incompatibilidades
                 df_norm = df_prev.copy()
                 df_norm['date_parsed'] = pd.to_datetime(df_norm['date'], errors='coerce')
                 df_norm = df_norm.dropna(subset=['date_parsed'])
@@ -242,7 +243,7 @@ def collect_daily_data():
         except Exception as e:
             logger.warning(f"Error procesando CSV previo: {e}")
             
-    # 2. Obtener clave activa dinámica (Usando la rutina síncrona comprobada)
+    # 2. Obtener clave activa dinámica
     api_key = capturar_api_key_autonomo()
     if not api_key:
         logger.error("No se pudo obtener una API Key válida. Cancelando ejecución.")
@@ -274,6 +275,7 @@ def collect_daily_data():
         sys.exit(1)
         
     df_new = pd.DataFrame(all_records)
+    # Filtrar rigurosamente registros que coincidan con la fecha de ayer
     df_new = df_new[df_new['date'] == fecha_ayer_str]
     
     logger.info(f"Nuevos registros válidos obtenidos de ayer: {len(df_new)}")
