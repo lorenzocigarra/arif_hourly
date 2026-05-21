@@ -53,7 +53,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # ============================================================================
-# CAPTURA DE API KEY (PLAYWRIGHT)
+# CAPTURA DE API KEY (PLAYWRIGHT EXACTA DEL SCRIPT COMPROBADO)
 # ============================================================================
 
 def capturar_api_key_autonomo() -> str:
@@ -98,20 +98,31 @@ def capturar_api_key_autonomo() -> str:
             
             page.on("request", interceptar)
             
-            # OPTIMIZACIÓN: Esperar únicamente hasta el 'commit' (HTML inicial recibido)
             logger.info("Navegando a la página del mapa...")
-            response = page.goto(
-                f"{ARIF_BASE_URL}/osservazioni/mappa-stazioni-meteo", 
-                timeout=45000, 
-                wait_until="commit"
-            )
+            response = page.goto(f"{ARIF_BASE_URL}/osservazioni/mappa-stazioni-meteo", timeout=60000)
             
             logger.info(f"Respuesta HTTP recibida: {response.status if response else 'No response'}")
             logger.info(f"Título de la página cargada: '{page.title()}'")
             
-            # Esperar marcadores con timeout razonable (40 segundos)
+            # Forzar espera a que la red se estabilice
+            try:
+                page.wait_for_load_state("networkidle", timeout=15000)
+            except:
+                pass
+            
+            # GUARDAR CAPTURA DE PANTALLA Y HTML DE DIAGNÓSTICO EN CASO DE BLOQUEO
+            screenshot_path = LOGS_DIR / "debug_github_daily.png"
+            html_path = LOGS_DIR / "debug_github_daily.html"
+            
+            page.screenshot(path=str(screenshot_path))
+            html_path.write_text(page.content(), encoding='utf-8')
+            
+            logger.info(f"[DEBUG] Captura guardada en: {screenshot_path}")
+            logger.info(f"[DEBUG] Código HTML guardado en: {html_path}")
+            
+            # Esperar marcadores
             logger.info("Esperando que aparezcan los marcadores en el mapa...")
-            page.wait_for_selector(".leaflet-marker-icon", timeout=40000)
+            page.wait_for_selector(".leaflet-marker-icon", timeout=30000)
             
             # Hacer clic en un marcador
             logger.info("Marcadores detectados. Realizando clic en el primer elemento...")
@@ -124,8 +135,6 @@ def capturar_api_key_autonomo() -> str:
                 logger.info("Haciendo clic en el enlace 'Dettagli' del popup...")
                 enlaces_detalles.first.click(force=True)
                 page.wait_for_timeout(5000)
-            else:
-                logger.warning("No se localizó el enlace 'Dettagli' en el popup emergente.")
                 
             browser.close()
         except Exception as e:
@@ -262,7 +271,7 @@ def collect_daily_data():
         time.sleep(0.5)
         
     if not all_records:
-        logger.error("No se obtuvieron registros de ninguna variable.")
+        logger.error("No se descargaron registros.")
         sys.exit(1)
         
     df_new = pd.DataFrame(all_records)
