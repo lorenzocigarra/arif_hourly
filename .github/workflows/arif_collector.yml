@@ -36,14 +36,6 @@ jobs:
         git diff --quiet && git diff --staged --quiet || git commit -m "Update ARIF spatial data $(date -u +"%Y-%m-%d %H:%M UTC")"
         git push
       continue-on-error: true
-
-    - name: Upload debug screenshot on failure
-      if: failure()
-      uses: actions/upload-artifact@v3
-      with:
-        name: debug-screenshots
-        path: logs/*.png
-
     
     - name: Upload debug artifacts on failure
       if: failure()
