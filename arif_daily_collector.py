@@ -53,7 +53,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # ============================================================================
-# CAPTURA DE API KEY (PLAYWRIGHT EXACTA DEL SCRIPT COMPROBADO)
+# CAPTURA DE API KEY (PLAYWRIGHT EN ESTADO ATTACHED)
 # ============================================================================
 
 def capturar_api_key_autonomo() -> str:
@@ -120,12 +120,12 @@ def capturar_api_key_autonomo() -> str:
             logger.info(f"[DEBUG] Captura guardada en: {screenshot_path}")
             logger.info(f"[DEBUG] Código HTML guardado en: {html_path}")
             
-            # Esperar marcadores
-            logger.info("Esperando que aparezcan los marcadores en el mapa...")
-            page.wait_for_selector(".leaflet-marker-icon", timeout=30000)
+            # CORREGIDO: Esperar a que los marcadores estén acoplados (attached) al HTML, sin verificar visibilidad
+            logger.info("Esperando que los marcadores estén acoplados en el HTML...")
+            page.wait_for_selector(".leaflet-marker-icon", state="attached", timeout=30000)
             
-            # Hacer clic en un marcador
-            logger.info("Marcadores detectados. Realizando clic en el primer elemento...")
+            # Hacer clic forzado en un marcador
+            logger.info("Marcadores detectados en el DOM. Realizando clic forzado...")
             page.locator(".leaflet-marker-icon").first.click(force=True)
             page.wait_for_timeout(3000)
             
@@ -135,6 +135,8 @@ def capturar_api_key_autonomo() -> str:
                 logger.info("Haciendo clic en el enlace 'Dettagli' del popup...")
                 enlaces_detalles.first.click(force=True)
                 page.wait_for_timeout(5000)
+            else:
+                logger.warning("No se localizó el enlace 'Dettagli' en el popup emergente.")
                 
             browser.close()
         except Exception as e:
@@ -228,7 +230,7 @@ def collect_daily_data():
         try:
             df_prev = pd.read_csv(DAILY_CSV)
             if 'date' in df_prev.columns and 'variable' in df_prev.columns:
-                # Normalización preventiva de fechas
+                # Normalización preventiva de fechas para compatibilidad con Excel
                 df_norm = df_prev.copy()
                 df_norm['date_parsed'] = pd.to_datetime(df_norm['date'], errors='coerce')
                 df_norm = df_norm.dropna(subset=['date_parsed'])
