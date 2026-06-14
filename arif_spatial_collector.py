@@ -1,17 +1,17 @@
 # arif_spatial_collector.py
+import os
 import sys
-from pathlib import Path
-import pandas as pd
-import requests
-from datetime import datetime
+import re
 import time
 import logging
-import re
+from pathlib import Path
+from datetime import datetime
+import requests
+import pandas as pd
 
 # ============================================================================
-# CONFIGURACIÓN
+# CONFIGURACIÓN DE DIRECTORIOS Y RUTAS
 # ============================================================================
-
 ARIF_BASE_URL = "http://www.agrometeopuglia.it"
 
 DATA_DIR = Path("data/arif")
@@ -47,7 +47,6 @@ MAPPING = {
 # ============================================================================
 # LOGGING
 # ============================================================================
-
 log_file = LOGS_DIR / f"arif_spatial_{datetime.now().strftime('%Y%m%d')}.log"
 
 logging.basicConfig(
@@ -58,16 +57,14 @@ logging.basicConfig(
         logging.StreamHandler(sys.stdout)
     ]
 )
-
 logger = logging.getLogger(__name__)
 
 # ============================================================================
 # CAPTURA DE API KEY (PLAYWRIGHT)
 # ============================================================================
-
 def capturar_api_key_autonomo() -> str:
     """Inicia un navegador headless, emula clics e intercepta la API Key activa"""
-    logger.info("Iniciando navegador Playwright para capturar clave...")
+    logger.info("Iniciando navegador Playwright para capturar clave dinámica...")
     from playwright.sync_api import sync_playwright
     api_key_capturada = None
     
@@ -75,28 +72,18 @@ def capturar_api_key_autonomo() -> str:
         try:
             browser = p.chromium.launch(headless=True)
             context = browser.new_context(
-                user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+                user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+                viewport={"width": 1280, "height": 800}
             )
             
-            # Inyectar cookies de consentimiento
+            # Inyectar cookies para evadir el banner de advertencia de consentimiento
             context.add_cookies([
-                {
-                    'name': 'nibirumail_cookie_advice',
-                    'value': '1',
-                    'domain': 'www.agrometeopuglia.it',
-                    'path': '/'
-                },
-                {
-                    'name': 'nibirumail_cookie_advice',
-                    'value': '1',
-                    'domain': 'agrometeopuglia.it',
-                    'path': '/'
-                }
+                {'name': 'nibirumail_cookie_advice', 'value': '1', 'domain': 'www.agrometeopuglia.it', 'path': '/'},
+                {'name': 'nibirumail_cookie_advice', 'value': '1', 'domain': 'agrometeopuglia.it', 'path': '/'}
             ])
             
             page = context.new_page()
             
-            # Interceptor de red
             def interceptar(request):
                 nonlocal api_key_capturada
                 url = request.url
@@ -108,37 +95,31 @@ def capturar_api_key_autonomo() -> str:
             page.on("request", interceptar)
             
             logger.info("Navegando a la página del mapa...")
-            response = page.goto(f"{ARIF_BASE_URL}/osservazioni/mappa-stazioni-meteo", timeout=60000)
+            page.goto(f"{ARIF_BASE_URL}/osservazioni/mappa-stazioni-meteo", timeout=60000)
+            page.wait_for_timeout(5000)
             
-            logger.info(f"Respuesta HTTP recibida: {response.status if response else 'No response'}")
-            logger.info(f"Título de la página cargada: '{page.title()}'")
+            # Recargar para forzar el reconocimiento de las cookies de sesión
+            page.reload(timeout=60000)
+            page.wait_for_timeout(5000)
             
-            # Forzar espera a que la red se estabilice
             try:
-                page.wait_for_load_state("networkidle", timeout=15000)
-            except:
-                pass
+                page.wait_for_function("() => document.querySelectorAll('.leaflet-marker-icon').length > 0", timeout=30000)
+            except Exception:
+                logger.warning("Timeout esperando selectores gráficos de mapa. Usando fallback de clic.")
             
-            # GUARDAR CAPTURA DE PANTALLA Y HTML DE DIAGNÓSTICO EN CASO DE BLOQUEO
-            screenshot_path = LOGS_DIR / "debug_github.png"
-            html_path = LOGS_DIR / "debug_github.html"
+            # Intentar clic físico o fallback de coordenadas en pantalla
+            markers = page.locator(".leaflet-marker-icon")
+            if markers.count() > 0:
+                logger.info(f"Marcadores detectados ({markers.count()}). Clic en el primer elemento...")
+                markers.first.click(force=True)
+            else:
+                vp = page.viewport_size
+                cx, cy = vp['width'] // 2, vp['height'] // 2
+                logger.warning(f"Sin marcadores interactivos. Clic por coordenadas centrales: ({cx}, {cy})")
+                page.mouse.click(cx, cy)
             
-            page.screenshot(path=str(screenshot_path))
-            html_path.write_text(page.content(), encoding='utf-8')
-            
-            logger.info(f"[DEBUG] Captura guardada en: {screenshot_path}")
-            logger.info(f"[DEBUG] Código HTML guardado en: {html_path}")
-            
-            # Esperar marcadores
-            logger.info("Esperando que aparezcan los marcadores en el mapa...")
-            page.wait_for_selector(".leaflet-marker-icon", timeout=30000)
-            
-            # Hacer clic en un marcador
-            logger.info("Marcadores detectados. Realizando clic en el primer elemento...")
-            page.locator(".leaflet-marker-icon").first.click(force=True)
             page.wait_for_timeout(3000)
             
-            # Hacer clic en Dettagli
             enlaces_detalles = page.locator("a:has-text('Dettagli'), a:has-text('dettagli')")
             if enlaces_detalles.count() > 0:
                 logger.info("Haciendo clic en el enlace 'Dettagli' del popup...")
@@ -154,9 +135,8 @@ def capturar_api_key_autonomo() -> str:
 # ============================================================================
 # DESCARGA DE DATOS
 # ============================================================================
-
 def download_variable(session: requests.Session, api_key: str, api_code: str, fallback_name: str) -> list:
-    """Descargar datos de UNA variable para TODAS las estaciones"""
+    """Descargar datos de una variable para todas las estaciones"""
     url = f"{ARIF_BASE_URL}/api/osservazioni/stazioni"
     params = {
         'api': api_key,
@@ -169,17 +149,16 @@ def download_variable(session: requests.Session, api_key: str, api_code: str, fa
         response = session.get(url, params=params, timeout=30)
         
         if response.status_code != 200:
-            logger.error(f"  HTTP {response.status_code}")
+            logger.error(f"  Error HTTP: {response.status_code}")
             return []
         
         data = response.json()
         
         if not isinstance(data, list) or len(data) == 0:
-            logger.warning(f"  Vacío")
+            logger.warning("  Sin datos devueltos en la consulta.")
             return []
         
         logger.info(f"  ✓ {len(data)} registros obtenidos")
-        
         records = []
         
         for item in data:
@@ -188,7 +167,7 @@ def download_variable(session: requests.Session, api_key: str, api_code: str, fa
             if raw_val is not None:
                 try:
                     value = float(str(raw_val).strip())
-                except:
+                except Exception:
                     value = str(raw_val).strip()
             
             raw_date = item.get('DATA', '').strip()
@@ -225,13 +204,11 @@ def download_variable(session: requests.Session, api_key: str, api_code: str, fa
                 'unit': unit,
                 'timestamp_utc_extraction': datetime.utcnow().isoformat()
             }
-            
             records.append(record)
         
         return records
-    
     except Exception as e:
-        logger.error(f"  Error: {e}")
+        logger.error(f"  Error en la descarga: {e}")
         return []
 
 def collect_all_data():
@@ -242,10 +219,10 @@ def collect_all_data():
     
     api_key = capturar_api_key_autonomo()
     if not api_key:
-        logger.error("No se pudo obtener una API Key válida. Cancelando ejecución.")
+        logger.error("No se pudo obtener una API Key válida. Abortando ejecución.")
         sys.exit(1)
         
-    logger.info(f"API Key activa establecida para descargas directas: {api_key[:15]}...")
+    logger.info(f"API Key obtenida: {api_key[:15]}...")
     
     session = requests.Session()
     session.headers.update({
@@ -265,11 +242,11 @@ def collect_all_data():
         time.sleep(0.5)
     
     if not all_records:
-        logger.error("No se obtuvieron registros de ninguna variable.")
+        logger.error("No se capturó información en esta consulta.")
         sys.exit(1)
     
     df_new = pd.DataFrame(all_records)
-    logger.info(f"Nuevos registros obtenidos en esta corrida: {len(df_new)}")
+    logger.info(f"Registros nuevos obtenidos: {len(df_new)}")
     
     if SPATIAL_CSV.exists():
         try:
@@ -279,34 +256,33 @@ def collect_all_data():
                 subset=['station_id', 'datetime_local', 'variable'],
                 keep='last'
             )
-            logger.info(f"Registros previos cargados: {len(df_prev)}")
-            logger.info(f"Total registros únicos consolidados: {len(df_combined)}")
+            logger.info(f"Historial cargado. Uniendo y deduplicando...")
         except Exception as e:
-            logger.warning(f"Error procesando CSV histórico: {e}")
+            logger.warning(f"Error procesando CSV de respaldo: {e}")
             df_combined = df_new
     else:
         df_combined = df_new
     
-    df_combined = df_combined.sort_values(
-        by=['datetime_local', 'station_id', 'variable']
-    )
+    df_combined = df_combined.sort_values(by=['datetime_local', 'station_id', 'variable'])
     
-    df_combined.to_csv(SPATIAL_CSV, index=False, encoding='utf-8-sig')
+    # ESCRITURA ATÓMICA DE SEGURIDAD
+    tmp_file = SPATIAL_CSV.parent / f"{SPATIAL_CSV.name}.tmp"
+    df_combined.to_csv(tmp_file, index=False, encoding='utf-8-sig')
+    os.replace(tmp_file, SPATIAL_CSV)
     
     logger.info("="*70)
-    logger.info("RECOLECCIÓN COMPLETADA CON ÉXITO")
-    print(f"  Total registros: {len(df_combined)}")
-    print(f"  Estaciones únicas: {df_combined['station_id'].nunique()}")
-    print(f"  Variables únicas: {df_combined['variable'].nunique()}")
+    logger.info("PROCESO COMPLETADO")
+    print(f"  Total registros consolidados: {len(df_combined)}")
+    print(f"  Estaciones activas en red:   {df_combined['station_id'].nunique()}")
+    print(f"  Variables de sensor:         {df_combined['variable'].nunique()}")
     logger.info("="*70)
 
 # ============================================================================
-# MAIN
+# RUNNER
 # ============================================================================
-
 if __name__ == "__main__":
     try:
         collect_all_data()
     except Exception as e:
-        logger.error(f"Error fatal en la ejecución: {e}", exc_info=True)
+        logger.error(f"Error crítico en tiempo de ejecución: {e}", exc_info=True)
         sys.exit(1)
